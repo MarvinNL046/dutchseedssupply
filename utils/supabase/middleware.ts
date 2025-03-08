@@ -3,11 +3,8 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
   try {
-    const response = NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    })
+    // Pass the full request to ensure the entire context is preserved
+    const response = NextResponse.next(request)
 
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,21 +16,12 @@ export async function updateSession(request: NextRequest) {
             return cookie?.value
           },
           set(name: string, value: string, options: CookieOptions) {
-            // Only set cookies on the response, not on the request
-            response.cookies.set({
-              name,
-              value,
-              ...options,
-            })
+            // Set cookies directly on the response with the correct format
+            response.cookies.set(name, value, options)
           },
           remove(name: string, options: CookieOptions) {
-            // Only set cookies on the response with maxAge 0 to remove
-            response.cookies.set({
-              name,
-              value: "",
-              ...options,
-              maxAge: 0,
-            })
+            // Remove cookies by setting with maxAge 0
+            response.cookies.set(name, '', { ...options, maxAge: 0 })
           },
         },
       }

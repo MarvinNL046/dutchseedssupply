@@ -6,9 +6,12 @@ const domainToLocale = { 'com': 'en', 'nl': 'nl', 'de': 'de', 'fr': 'fr' };
 
 // Configureer welke paden de middleware moet afhandelen
 export const config = {
+  // Gebruik Node.js runtime in plaats van Edge Runtime voor betere compatibiliteit met Supabase
+  runtime: 'nodejs',
   matcher: [
     // Pas middleware toe op alle paden behalve API routes, static files, etc.
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    // Explicieter uitsluiten van statische bestanden en favicon
+    '/((?!api|_next|static|images|favicon.ico|.*\\.(png|jpg|jpeg|svg|gif|webp)).*)',
   ],
 };
 
