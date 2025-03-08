@@ -2,11 +2,15 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createServerSupabaseClient } from '@/lib/supabase';
 
+// Define the correct type for the params
+type PageProps = {
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
 export default async function AdminPaymentDetailsPage({
   params,
-}: {
-  params: { id: string };
-}) {
+}: PageProps) {
   // Check admin rights
   const supabase = await createServerSupabaseClient();
   const { data: { session } } = await supabase.auth.getSession();
