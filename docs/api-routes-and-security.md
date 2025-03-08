@@ -12,14 +12,30 @@ Om de website stabiel te houden en tegelijkertijd de beveiliging te waarborgen, 
 
 ## API Routes
 
-### Admin Authenticatie
+### Authenticatie
 
-De `/api/auth/check-admin` route controleert of een gebruiker admin rechten heeft:
+De volgende authenticatie routes zijn geïmplementeerd:
 
-- Controleert eerst of er een geldige sessie is
-- Controleert vervolgens of de gebruiker de admin rol heeft in de database
-- Heeft een fallback voor bekende admin e-mailadressen (marvinsmit1988@gmail.com)
-- Retourneert een JSON response met `isAdmin: true/false`
+- `/api/auth/login`: Logt een gebruiker in met e-mail en wachtwoord
+  - Controleert de inloggegevens via Supabase Auth
+  - Controleert of de gebruiker een admin is
+  - Retourneert een JSON response met gebruikersgegevens en redirect URL
+
+- `/api/auth/logout`: Logt een gebruiker uit
+  - Verwijdert de sessie via Supabase Auth
+  - Retourneert een JSON response met `success: true`
+
+- `/api/auth/register`: Registreert een nieuwe gebruiker
+  - Valideert e-mail en wachtwoord
+  - Maakt een nieuwe gebruiker aan via Supabase Auth
+  - Voegt de gebruiker toe aan de `users` tabel met de rol 'user'
+  - Retourneert een JSON response met gebruikersgegevens
+
+- `/api/auth/check-admin`: Controleert of een gebruiker admin rechten heeft
+  - Controleert eerst of er een geldige sessie is
+  - Controleert vervolgens of de gebruiker de admin rol heeft in de database
+  - Heeft een fallback voor bekende admin e-mailadressen (marvinsmit1988@gmail.com)
+  - Retourneert een JSON response met `isAdmin: true/false`
 
 ### Product Data
 
