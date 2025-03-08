@@ -59,8 +59,11 @@ export async function middleware(req: NextRequest) {
     
     return response;
   } catch (error) {
-    console.error('Error in middleware:', error);
-    // Return a basic response in case of error
-    return NextResponse.next();
+    console.error('Middleware error:', error);
+    // Return a more informative error response
+    return new NextResponse(
+      JSON.stringify({ success: false, message: 'Authentication error' }),
+      { status: 500, headers: { 'content-type': 'application/json' } }
+    );
   }
 }
