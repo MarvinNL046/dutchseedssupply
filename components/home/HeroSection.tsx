@@ -45,21 +45,25 @@ export default function HeroSection() {
 
   return (
     <div className="relative h-[90vh] w-full overflow-hidden">
-      {/* Parallax Background with 3D effect */}
+      {/* Animated gradient background with parallax effect */}
       <div 
-        className="absolute inset-0 bg-cover bg-center"
+        className="absolute inset-0"
         style={{ 
-          backgroundImage: "url('/images/hero-cannabis.jpg')", 
-          backgroundPosition: "center",
           transform: `translateY(${scrollY * 0.5}px) scale(${1 + scrollY * 0.0005})`,
           transition: "transform 0.1s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
         }}
       >
-        {/* Modern gradient overlay with multiple layers for depth */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
+        {/* Primary gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-emerald-800 to-green-950"></div>
+        
+        {/* Secondary animated gradient for depth */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/60 to-black/40 opacity-80"></div>
         
         {/* Animated particles for depth (simulated with pseudo-elements in CSS) */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.1)_0%,_transparent_8%)] bg-[length:3vmin_3vmin]"></div>
+        
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMwMDAiPjwvcmVjdD4KPC9zdmc+')]"></div>
       </div>
       
       {/* Content with glassmorphism effect */}
