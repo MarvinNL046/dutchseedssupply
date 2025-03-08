@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import React from "react";
 
 // Define the categories we want to display
 const categories = [
@@ -11,7 +12,6 @@ const categories = [
     id: "indica",
     name: "Indica",
     description: "Relaxing & calming strains",
-    image: "/images/indica.jpg",
     color: "from-purple-500 to-purple-700",
     hoverColor: "from-purple-400 to-purple-600",
     shadowColor: "shadow-purple-500/20",
@@ -20,7 +20,6 @@ const categories = [
     id: "sativa",
     name: "Sativa",
     description: "Energizing & uplifting varieties",
-    image: "/images/sativa.jpg",
     color: "from-green-500 to-green-700",
     hoverColor: "from-green-400 to-green-600",
     shadowColor: "shadow-green-500/20",
@@ -29,7 +28,6 @@ const categories = [
     id: "hybrid",
     name: "Hybrid",
     description: "Balanced effects & characteristics",
-    image: "/images/hybrid.jpg",
     color: "from-blue-500 to-blue-700",
     hoverColor: "from-blue-400 to-blue-600",
     shadowColor: "shadow-blue-500/20",
@@ -38,7 +36,6 @@ const categories = [
     id: "autoflower",
     name: "Autoflowering",
     description: "Quick & easy to grow",
-    image: "/images/autoflower.jpg",
     color: "from-yellow-500 to-yellow-700",
     hoverColor: "from-yellow-400 to-yellow-600",
     shadowColor: "shadow-yellow-500/20",
@@ -47,7 +44,6 @@ const categories = [
     id: "feminized",
     name: "Feminized",
     description: "Guaranteed female plants",
-    image: "/images/feminized.jpg",
     color: "from-pink-500 to-pink-700",
     hoverColor: "from-pink-400 to-pink-600",
     shadowColor: "shadow-pink-500/20",
@@ -56,7 +52,6 @@ const categories = [
     id: "cbd",
     name: "CBD",
     description: "High CBD, low THC options",
-    image: "/images/cbd.jpg",
     color: "from-teal-500 to-teal-700",
     hoverColor: "from-teal-400 to-teal-600",
     shadowColor: "shadow-teal-500/20",
@@ -87,6 +82,12 @@ const itemVariants = {
     }
   }
 };
+
+// Create a wrapper for Card that can accept a ref
+const TiltableCard = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Card>>(
+  (props, ref) => <Card {...props} ref={ref} />
+);
+TiltableCard.displayName = 'TiltableCard';
 
 // Card component with 3D tilt effect
 function TiltCard({ category, index }: { category: typeof categories[0], index: number }) {
@@ -128,23 +129,20 @@ function TiltCard({ category, index }: { category: typeof categories[0], index: 
       }}
     >
       <Link href={`/products?category=${category.id}`}>
-        <Card 
+        <TiltableCard 
           ref={cardRef}
           className={`overflow-hidden h-full border-0 ${category.shadowColor} shadow-xl transition-all duration-300 ease-out will-change-transform`}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
           <div className="relative h-48 overflow-hidden group">
-            {/* Background image with zoom effect */}
+            {/* Gradient background with animation */}
             <div 
-              className="absolute inset-0 bg-cover bg-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
-              style={{ 
-                backgroundImage: `url(${category.image})`,
-              }}
+              className={`absolute inset-0 bg-gradient-to-tr ${category.color} group-hover:${category.hoverColor} transform group-hover:scale-110 transition-all duration-700 ease-out`}
             />
             
-            {/* Gradient overlay with transition */}
-            <div className={`absolute inset-0 bg-gradient-to-tr ${category.color} group-hover:${category.hoverColor} opacity-80 transition-colors duration-300`}></div>
+            {/* Pattern overlay for texture */}
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.8)_0%,_transparent_70%)]"></div>
             
             {/* Glassmorphism card content */}
             <div className="absolute inset-0 flex items-center justify-center p-6">
@@ -161,7 +159,7 @@ function TiltCard({ category, index }: { category: typeof categories[0], index: 
               <span className="text-green-600 group-hover:translate-x-1 transition-transform duration-300">→</span>
             </div>
           </CardContent>
-        </Card>
+        </TiltableCard>
       </Link>
     </motion.div>
   );
