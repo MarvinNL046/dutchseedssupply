@@ -7,7 +7,8 @@ export const config = {
   ],
 };
 
-export function middleware() {
+// Gebruik een default export in plaats van een named export
+export default function middleware() {
   console.log("Middleware is running"); // Check of de middleware überhaupt draait
   return NextResponse.next();
 }
