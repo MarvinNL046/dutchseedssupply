@@ -1,4 +1,3 @@
-import { createServerSupabaseClient, getDomainId } from '@/lib/supabase';
 import Link from 'next/link';
 import { getTranslations } from '@/lib/i18n';
 import translations from '@/locale/translations';
@@ -18,25 +17,34 @@ type ProductVariant = {
   products: Product;
 };
 
+async function getProducts() {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/products`, {
+      cache: 'no-store',
+      next: { revalidate: 60 } // Revalidate every 60 seconds
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error fetching products: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    return data.products || [];
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    return [];
+  }
+}
+
 export default async function ProductsPage() {
-  // Get the current domain ID
-  const domainId = await getDomainId();
-  
   // Get translations
   const { t } = await getTranslations(translations);
   
-  // Create Supabase client
-  const supabase = await createServerSupabaseClient();
+  // Fetch products using the API route
+  const variants = await getProducts();
   
-  // Fetch products for the current domain
-  const { data: variants, error } = await supabase
-    .from('product_variants')
-    .select('*, products(*)')
-    .eq('domain_id', domainId);
-  
-  if (error) {
-    console.error('Error fetching products:', error);
-    return <div>Er is een fout opgetreden bij het ophalen van de producten.</div>;
+  if (!variants || variants.length === 0) {
+    console.error('No products found or error fetching products');
   }
   
   return (
