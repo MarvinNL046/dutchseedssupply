@@ -1,8 +1,13 @@
-// Lege middleware file om de "No fetch event listeners found" fout te voorkomen
-// Deze file bevat geen fetch event listeners en zal geen 500 errors veroorzaken
+import { NextResponse } from 'next/server';
 
+// Minimale middleware functie die niets doet behalve de request doorsturen
+export function middleware() {
+  // Gewoon de request doorsturen zonder wijzigingen
+  return NextResponse.next();
+}
+
+// Configureer welke paden de middleware moet afhandelen
+// We gebruiken een patroon dat geen enkele route matcht
 export const config = {
-  matcher: [], // Geen routes matchen, dus middleware wordt nooit uitgevoerd
+  matcher: ['/api/___dummy___route___that___does___not___exist___'],
 };
-
-// Geen middleware functie gedefinieerd
