@@ -22,7 +22,7 @@ const nextConfig = {
   
   // Configuratie voor i18n
   i18n: {
-    locales: ['nl', 'en', 'de'],
+    locales: ['nl', 'en', 'de', 'fr'],
     defaultLocale: 'nl',
     localeDetection: false,
   },

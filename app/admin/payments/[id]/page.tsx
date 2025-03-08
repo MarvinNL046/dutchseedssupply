@@ -1,19 +1,5 @@
 import Link from 'next/link';
 
-// Genereer statische parameters voor de statische export
-export function generateStaticParams() {
-  // Genereer een lijst van payment IDs die statisch gebouwd moeten worden
-  // Voor nu gebruiken we een paar dummy IDs
-  return [
-    { id: '1' },
-    { id: '2' },
-    { id: '3' },
-  ];
-}
-
-// Maak de pagina statisch
-export const dynamic = 'force-static';
-
 // Tijdelijke pagina die geen fouten veroorzaakt tijdens de build
 export default function AdminPaymentDetailsPage({ params }: { params: { id: string } }) {
   return (
