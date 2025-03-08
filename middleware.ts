@@ -10,8 +10,7 @@ export const config = {
   runtime: 'nodejs',
   matcher: [
     // Pas middleware toe op alle paden behalve API routes, static files, etc.
-    // Explicieter uitsluiten van statische bestanden en favicon
-    '/((?!api|_next|static|images|favicon.ico|.*\\.(png|jpg|jpeg|svg|gif|webp)).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };
 
