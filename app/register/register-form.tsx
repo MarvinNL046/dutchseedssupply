@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { signup } from '../login/actions';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -11,46 +10,40 @@ export default function RegisterForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
   
   // Check for error message in URL
   const urlError = searchParams.get('error');
   const urlMessage = searchParams.get('message');
   
-  const handleClientValidation = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     
     // Validate passwords match
     if (password !== confirmPassword) {
       setError('Wachtwoorden komen niet overeen.');
-      return false;
+      return;
     }
     
     // Validate password strength
     if (password.length < 6) {
       setError('Wachtwoord moet minimaal 6 tekens bevatten.');
-      return false;
+      return;
     }
     
     setLoading(true);
-    return true;
+    
+    // Tijdelijke oplossing zonder server actions
+    // In productie moet dit worden vervangen door echte authenticatie
+    setTimeout(() => {
+      setLoading(false);
+      router.push('/register?message=Registratie tijdelijk uitgeschakeld. Probeer het later opnieuw.');
+    }, 1000);
   };
 
   return (
-    <form className="mt-8 space-y-6" action={async (formData) => {
-      // Client-side validation before submitting to server
-      const isValid = handleClientValidation({
-        preventDefault: () => {} // Mock preventDefault method
-      } as React.FormEvent);
-      if (!isValid) return;
-      
-      // Add the form data
-      formData.set('email', email);
-      formData.set('password', password);
-      
-      // Submit to server action
-      await signup(formData);
-    }}>
+    <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
       {(error || urlError) && (
         <div className="rounded-md bg-red-50 p-4 mb-4">
           <div className="text-sm text-red-700">{error || urlError}</div>
