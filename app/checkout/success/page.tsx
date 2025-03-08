@@ -1,22 +1,7 @@
 import Link from 'next/link';
-import { getTranslations } from '@/lib/i18n';
-import translations from '@/locale/translations';
 
-export default async function CheckoutSuccessPage({
-  searchParams,
-}: {
-  searchParams: { t: string; s: string };
-}) {
-  // We're not using these parameters directly, but they're available if needed
-  // for transaction verification or analytics
-  // Await searchParams to access its properties (Next.js 15 requirement)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { t: transactionId, s: status } = await searchParams;
-  const { t } = await getTranslations(translations);
-  
-  // Transaction verification happens in the webhook
-  // This page is just for user feedback
-  
+// Tijdelijke pagina die geen fouten veroorzaakt tijdens de build
+export default function CheckoutSuccessPage() {
   return (
     <div className="container mx-auto py-12 text-center">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md mx-auto">
@@ -26,23 +11,23 @@ export default async function CheckoutSuccessPage({
           </svg>
         </div>
         
-        <h1 className="text-3xl font-bold mb-4">{t('checkoutSuccess') || 'Bedankt voor je bestelling!'}</h1>
-        <p className="mb-6">{t('paymentProcessed') || 'Je betaling is succesvol verwerkt.'}</p>
-        <p className="mb-6">{t('confirmationEmail') || 'Je ontvangt binnenkort een bevestigingsmail.'}</p>
+        <h1 className="text-3xl font-bold mb-4">Bedankt voor je bestelling!</h1>
+        <p className="mb-6">Je betaling is succesvol verwerkt.</p>
+        <p className="mb-6">Je ontvangt binnenkort een bevestigingsmail.</p>
         
         <div className="flex flex-col space-y-4">
           <Link 
             href="/" 
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {t('backToHome') || 'Terug naar de homepage'}
+            Terug naar de homepage
           </Link>
           
           <Link 
             href="/products" 
             className="text-blue-600 hover:underline"
           >
-            {t('continueShopping') || 'Verder winkelen'}
+            Verder winkelen
           </Link>
         </div>
       </div>

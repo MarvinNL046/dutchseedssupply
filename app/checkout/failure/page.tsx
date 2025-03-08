@@ -1,20 +1,7 @@
 import Link from 'next/link';
-import { getTranslations } from '@/lib/i18n';
-import translations from '@/locale/translations';
 
-export default async function CheckoutFailurePage({
-  searchParams,
-}: {
-  searchParams?: { error?: string };
-}) {
-  // We can use the error parameter if provided by the payment provider
-  // Await searchParams to access its properties (Next.js 15 requirement)
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const params = await searchParams;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const errorMessage = params?.error;
-  const { t } = await getTranslations(translations);
-  
+// Tijdelijke pagina die geen fouten veroorzaakt tijdens de build
+export default function CheckoutFailurePage() {
   return (
     <div className="container mx-auto py-12 text-center">
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 max-w-md mx-auto">
@@ -24,23 +11,23 @@ export default async function CheckoutFailurePage({
           </svg>
         </div>
         
-        <h1 className="text-3xl font-bold mb-4">{t('paymentFailed') || 'Betaling niet gelukt'}</h1>
-        <p className="mb-6">{t('paymentProcessingError') || 'Er is een probleem opgetreden bij het verwerken van je betaling.'}</p>
-        <p className="mb-6">{t('tryAgainOrContact') || 'Probeer het opnieuw of neem contact op met onze klantenservice.'}</p>
+        <h1 className="text-3xl font-bold mb-4">Betaling niet gelukt</h1>
+        <p className="mb-6">Er is een probleem opgetreden bij het verwerken van je betaling.</p>
+        <p className="mb-6">Probeer het opnieuw of neem contact op met onze klantenservice.</p>
         
         <div className="flex flex-col space-y-4">
           <Link 
             href="/cart" 
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            {t('backToCart') || 'Terug naar winkelwagen'}
+            Terug naar winkelwagen
           </Link>
           
           <Link 
             href="/contact" 
             className="text-blue-600 hover:underline"
           >
-            {t('contactSupport') || 'Contact klantenservice'}
+            Contact klantenservice
           </Link>
         </div>
       </div>
