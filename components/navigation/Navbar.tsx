@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useCart } from '@/components/cart/CartContext';
 import { useClientTranslations } from '@/lib/i18n';
 import translations from '@/locale/translations';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import DomainLanguageSwitcher from '@/components/DomainLanguageSwitcher';
 
 export default function Navbar() {
   const { totalItems } = useCart();
@@ -31,7 +31,7 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
             {/* Language switcher (small version) */}
             <div className="hidden md:block">
-              <LanguageSwitcher />
+              <DomainLanguageSwitcher />
             </div>
             
             {/* Cart link with item count */}
