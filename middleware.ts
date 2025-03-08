@@ -1,12 +1,8 @@
-import { NextResponse } from 'next/server';
+// Lege middleware file om de "No fetch event listeners found" fout te voorkomen
+// Deze file bevat geen fetch event listeners en zal geen 500 errors veroorzaken
 
-// Configureer welke paden de middleware moet afhandelen
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [], // Geen routes matchen, dus middleware wordt nooit uitgevoerd
 };
 
-export default function middleware() {
-  // Zeer eenvoudige middleware zonder omgevingsvariabelen of complexe logica
-  // Dit zou het "No fetch event listeners found" probleem moeten oplossen
-  return NextResponse.next();
-}
+// Geen middleware functie gedefinieerd
