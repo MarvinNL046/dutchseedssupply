@@ -1,0 +1,95 @@
+import { createServerSupabaseClient, getDomainId } from '@/lib/supabase';
+import { getTranslations } from '@/lib/i18n';
+import translations from '@/locale/translations';
+import Link from 'next/link';
+import AddToCartButtonWrapper from '@/app/products/[id]/AddToCartButtonWrapper';
+
+export default async function ProductDetailPage({
+  params,
+}: {
+  params: { id: string };
+}) {
+  // Get the current domain ID
+  const domainId = await getDomainId();
+  
+  // Get translations
+  const { t } = await getTranslations(translations);
+  
+  // Create Supabase client
+  const supabase = await createServerSupabaseClient();
+  
+  // Await params to access its properties (Next.js 15 requirement)
+  const { id } = await params;
+  
+  // Fetch product details
+  const { data: product, error: productError } = await supabase
+    .from('products')
+    .select('*')
+    .eq('id', id)
+    .single();
+  
+  // Fetch product variant for the current domain
+  const { data: variant, error: variantError } = await supabase
+    .from('product_variants')
+    .select('*')
+    .eq('product_id', id)
+    .eq('domain_id', domainId)
+    .single();
+  
+  if (productError || variantError) {
+    console.error('Error fetching product:', productError || variantError);
+    return <div>Er is een fout opgetreden bij het ophalen van het product.</div>;
+  }
+  
+  if (!product || !variant) {
+    return <div>Product niet gevonden.</div>;
+  }
+  
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-6">
+        <Link href="/products" className="text-blue-600 hover:underline">
+          ← {t('backToProducts') || 'Terug naar producten'}
+        </Link>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Product Image */}
+        <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-96 flex items-center justify-center text-gray-500 dark:text-gray-400">
+          Product afbeelding
+        </div>
+        
+        {/* Product Info */}
+        <div>
+          <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
+          <div className="text-2xl font-bold text-blue-600 mb-4">
+            €{variant.price.toFixed(2)}
+          </div>
+          
+          <div className="mb-6">
+            <div className={`inline-block px-3 py-1 rounded-full text-sm ${
+              variant.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+            }`}>
+              {variant.stock > 0 
+                ? `${variant.stock} ${t('inStock') || 'op voorraad'}`
+                : t('outOfStock') || 'Niet op voorraad'
+              }
+            </div>
+          </div>
+          
+          <div className="prose dark:prose-invert mb-8">
+            <p>{product.description}</p>
+          </div>
+          
+          {variant.stock > 0 && (
+            <AddToCartButtonWrapper 
+              product={product} 
+              variant={variant} 
+              buttonText={t('addToCart') || 'In winkelwagen'} 
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
