@@ -1,14 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,6 +14,8 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
+      console.log('Login attempt with email:', email);
+      
       // Use the API route instead of direct Supabase client
       const response = await fetch('/api/auth/login', {
         method: 'POST',
@@ -23,9 +23,13 @@ export default function LoginForm() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
+        credentials: 'include', // Important: include cookies in the request
       });
 
+      console.log('Login response status:', response.status);
+      
       const data = await response.json();
+      console.log('Login response data:', data);
 
       if (!response.ok) {
         console.error('Login error:', data.error);
@@ -34,13 +38,18 @@ export default function LoginForm() {
         return;
       }
 
-      console.log('Login successful, redirecting to:', data.redirectTo);
+      console.log('Login successful, user:', data.user);
+      console.log('Is admin:', data.isAdmin);
+      console.log('Redirecting to:', data.redirectTo);
       
-      // Let Supabase handle the session cookies
-      // The API route already set the cookies via the server-side Supabase client
+      // Let's check if we have a session cookie
+      console.log('Cookies:', document.cookie);
       
-      // Redirect based on the API response
-      router.push(data.redirectTo);
+      // Add a delay before redirecting to ensure cookies are set
+      setTimeout(() => {
+        // Use window.location instead of router.push for a full page reload
+        window.location.href = data.redirectTo;
+      }, 500);
     } catch (err) {
       console.error('Login error:', err);
       setError('Er is een fout opgetreden bij het inloggen.');
