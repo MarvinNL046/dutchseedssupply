@@ -34,12 +34,35 @@ export default function RegisterForm() {
     
     setLoading(true);
     
-    // Tijdelijke oplossing zonder server actions
-    // In productie moet dit worden vervangen door echte authenticatie
-    setTimeout(() => {
+    try {
+      // Use the API route for registration
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Registration error:', data.error);
+        setError(data.error || 'Er is een fout opgetreden bij het registreren.');
+        setLoading(false);
+        return;
+      }
+
+      console.log('Registration successful:', data.message);
+      
+      // Show success message
+      router.push('/register?message=' + encodeURIComponent(data.message));
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError('Er is een fout opgetreden bij het registreren.');
+    } finally {
       setLoading(false);
-      router.push('/register?message=Registratie tijdelijk uitgeschakeld. Probeer het later opnieuw.');
-    }, 1000);
+    }
   };
 
   return (

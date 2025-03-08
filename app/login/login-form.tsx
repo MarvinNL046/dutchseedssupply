@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { createBrowserClient } from '@/lib/supabase-browser';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -10,7 +9,6 @@ export default function LoginForm() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const supabase = createBrowserClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,70 +16,34 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
-      console.log('Attempting to sign in with:', email);
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      // Use the API route instead of direct Supabase client
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
       });
 
-      if (error) {
-        console.error('Login error:', error);
-        setError(error.message);
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error('Login error:', data.error);
+        setError(data.error || 'Er is een fout opgetreden bij het inloggen.');
         setLoading(false);
         return;
       }
 
-      console.log('Sign in successful, session:', data.session);
-      console.log('Sign in successful, full session details:', JSON.stringify(data.session));
-
-      try {
-        // Check if user is admin
-        console.log('Fetching user role for ID:', data.user.id);
-        const { data: user, error: userError } = await supabase
-          .from('users')
-          .select('role')
-          .eq('id', data.user.id)
-          .single();
-
-        // Let Supabase handle the session cookies
-        console.log('Letting Supabase handle session cookies');
-
-        if (userError) {
-          console.error('Error fetching user role:', userError);
-          
-          // If we can't fetch the role but this is the known admin email, proceed
-          if (data.user.email === 'marvinsmit1988@gmail.com') {
-            console.log('Known admin email detected, proceeding to admin page');
-            router.push('/admin');
-          } else {
-            setError('Er is een fout opgetreden bij het ophalen van gebruikersgegevens.');
-            setLoading(false);
-            return;
-          }
-        } else if (user?.role === 'admin') {
-          console.log('Admin role confirmed, redirecting to admin page');
-          router.push('/admin');
-        } else {
-          console.log('Not an admin, redirecting to home page');
-          router.push('/');
-        }
-      } catch (err) {
-        console.error('Error checking user role:', err);
-        
-        // Fallback for known admin
-        if (data.user.email === 'marvinsmit1988@gmail.com') {
-          console.log('Using email fallback for known admin after error');
-          router.push('/admin');
-        } else {
-          setError('Er is een fout opgetreden bij het ophalen van gebruikersgegevens.');
-          setLoading(false);
-          return;
-        }
-      }
+      console.log('Login successful, redirecting to:', data.redirectTo);
+      
+      // Let Supabase handle the session cookies
+      // The API route already set the cookies via the server-side Supabase client
+      
+      // Redirect based on the API response
+      router.push(data.redirectTo);
     } catch (err) {
       console.error('Login error:', err);
       setError('Er is een fout opgetreden bij het inloggen.');
-    } finally {
       setLoading(false);
     }
   };
