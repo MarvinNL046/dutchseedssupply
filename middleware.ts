@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { geolocation } from '@vercel/functions';
 
 // Configureer welke paden de middleware moet afhandelen
 export const config = {
@@ -10,8 +11,15 @@ export default function middleware(request: NextRequest) {
     // Log de request voor debugging
     console.log(`Processing request for: ${request.nextUrl.pathname}`);
     
-    // Gewoon doorgaan met de request zonder wijzigingen
-    return NextResponse.next();
+    // Haal geolocatie informatie op (werkt alleen in productie)
+    const { country = 'Unknown' } = geolocation(request);
+    console.log(`Request from country: ${country}`);
+    
+    // Voeg custom headers toe met geolocatie informatie
+    const response = NextResponse.next();
+    response.headers.set('x-country', country);
+    
+    return response;
   } catch (error) {
     console.error('Middleware error:', error);
     
