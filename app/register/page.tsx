@@ -1,5 +1,19 @@
+import { Suspense } from 'react';
 import RegisterForm from './register-form';
 
+// Fallback component voor tijdens het laden
+function RegisterFormFallback() {
+  return (
+    <div className="animate-pulse">
+      <div className="h-10 bg-gray-200 rounded mb-4"></div>
+      <div className="h-10 bg-gray-200 rounded mb-4"></div>
+      <div className="h-10 bg-gray-200 rounded mb-4"></div>
+      <div className="h-10 bg-blue-200 rounded"></div>
+    </div>
+  );
+}
+
+// Gebruik Suspense boundary voor useSearchParams()
 export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
@@ -15,7 +29,9 @@ export default function RegisterPage() {
             </a>
           </p>
         </div>
-        <RegisterForm />
+        <Suspense fallback={<RegisterFormFallback />}>
+          <RegisterForm />
+        </Suspense>
       </div>
     </div>
   );
