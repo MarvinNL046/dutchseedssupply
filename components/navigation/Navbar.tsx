@@ -11,16 +11,16 @@ export default function Navbar() {
   const { t } = useClientTranslations(translations);
   
   return (
-    <nav className="bg-white dark:bg-gray-800 shadow-md">
+    <nav className="bg-gradient-to-r from-white to-green-50 dark:from-green-950 dark:to-green-900 shadow-md border-b border-green-100 dark:border-green-800">
       <div className="container mx-auto px-6 py-3">
         <div className="flex justify-between items-center">
           {/* Logo and main navigation */}
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-gray-800 dark:text-white">
+            <Link href="/" className="text-xl font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent dark:from-green-400 dark:to-emerald-300">
               Dutch Seed Supply
             </Link>
             <div className="ml-10 hidden md:flex items-center space-x-4">
-              <Link href="/products" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400">
+              <Link href="/products" className="text-green-800 dark:text-green-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200">
                 {t('products') || 'Products'}
               </Link>
               {/* Add more navigation links here */}
@@ -31,13 +31,15 @@ export default function Navbar() {
           <div className="flex items-center space-x-4">
             {/* Language switcher (small version) */}
             <div className="hidden md:block">
-              <DomainLanguageSwitcher />
+              <div className="p-1 rounded-md bg-green-50 dark:bg-green-900">
+                <DomainLanguageSwitcher />
+              </div>
             </div>
             
             {/* Cart link with item count */}
             <Link 
               href="/cart" 
-              className="relative p-2 text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              className="relative p-2 text-green-800 dark:text-green-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200"
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -54,7 +56,7 @@ export default function Navbar() {
                 />
               </svg>
               {totalItems > 0 && (
-                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-blue-600 rounded-full">
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-green-600 to-emerald-500 rounded-full shadow-sm">
                   {totalItems}
                 </span>
               )}
@@ -63,7 +65,7 @@ export default function Navbar() {
             {/* User account */}
             <Link 
               href="/login" 
-              className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+              className="text-green-800 dark:text-green-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200"
             >
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
