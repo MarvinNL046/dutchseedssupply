@@ -79,26 +79,29 @@ export default function HeroCarousel() {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   }, []);
 
-  // Animation variants - softer transitions
+  // Animation variants - crossfade effect with softer transitions
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? '100%' : '-100%',
+      x: direction > 0 ? '30%' : '-30%',
       opacity: 0,
+      zIndex: 0,
     }),
     center: {
       x: 0,
       opacity: 1,
+      zIndex: 1,
       transition: {
-        x: { type: 'spring', stiffness: 120, damping: 45 },
-        opacity: { duration: 0.8, ease: 'easeInOut' },
+        x: { type: 'spring', stiffness: 100, damping: 50 },
+        opacity: { duration: 1.2, ease: 'easeInOut' },
       },
     },
     exit: (direction: number) => ({
-      x: direction > 0 ? '-100%' : '100%',
+      x: direction > 0 ? '-30%' : '30%',
       opacity: 0,
+      zIndex: 0,
       transition: {
-        x: { type: 'spring', stiffness: 120, damping: 45 },
-        opacity: { duration: 0.8, ease: 'easeInOut' },
+        x: { type: 'spring', stiffness: 100, damping: 50 },
+        opacity: { duration: 1.2, ease: 'easeInOut' },
       },
     }),
   };
@@ -135,7 +138,10 @@ export default function HeroCarousel() {
       onMouseLeave={handleMouseLeave}
     >
       {/* Carousel slides */}
-      <AnimatePresence initial={false} custom={direction} mode="wait">
+      {/* Fixed background to prevent white flash */}
+      <div className="absolute inset-0 bg-green-950"></div>
+      
+      <AnimatePresence initial={false} custom={direction} mode="sync">
         <motion.div
           key={currentSlide}
           custom={direction}
