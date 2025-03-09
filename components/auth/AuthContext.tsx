@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, ReactNode, useCallback } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js';
 
@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const refreshUser = async () => {
+  const refreshUser = useCallback(async () => {
     try {
       const { data, error } = await supabase.auth.getUser();
       
@@ -71,9 +71,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [supabase]);
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     try {
       await supabase.auth.signOut();
       setUser(null);
@@ -82,7 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Error signing out:', error);
     }
-  };
+  }, [supabase]);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -142,7 +142,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     
     checkUser();
-  }, []);
+  }, [refreshUser, supabase.auth]);
 
   return (
     <AuthContext.Provider

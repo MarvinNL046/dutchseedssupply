@@ -9,6 +9,13 @@ interface DropdownMenuProps {
   align?: 'left' | 'right';
 }
 
+// Create a context to share the closeDropdown function
+const DropdownContext = React.createContext<{
+  closeDropdown: () => void;
+}>({
+  closeDropdown: () => {},
+});
+
 export function DropdownMenu({ trigger, children, align = 'right' }: DropdownMenuProps) {
   const [isOpen, setIsOpen] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -33,10 +40,6 @@ export function DropdownMenu({ trigger, children, align = 'right' }: DropdownMen
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
-  
-  const closeDropdown = () => {
-    setIsOpen(false);
-  };
 
   return (
     <div className="relative" ref={dropdownRef}>
@@ -50,15 +53,9 @@ export function DropdownMenu({ trigger, children, align = 'right' }: DropdownMen
             align === 'right' ? 'right-0' : 'left-0'
           } bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 min-w-[200px] border border-gray-200 dark:border-gray-700`}
         >
-          {React.Children.map(children, child => {
-            if (React.isValidElement(child)) {
-              // Pass closeDropdown to all children
-              return React.cloneElement(child as React.ReactElement<any>, {
-                closeDropdown
-              });
-            }
-            return child;
-          })}
+          <DropdownContext.Provider value={{ closeDropdown: () => setIsOpen(false) }}>
+            {children}
+          </DropdownContext.Provider>
         </div>
       )}
     </div>
@@ -70,23 +67,21 @@ interface DropdownMenuItemProps {
   onClick?: () => void;
   className?: string;
   href?: string;
-  closeDropdown?: () => void;
 }
 
 export function DropdownMenuItem({ 
   children, 
   onClick, 
   className = '', 
-  href, 
-  closeDropdown 
+  href
 }: DropdownMenuItemProps) {
+  const { closeDropdown } = React.useContext(DropdownContext);
+  
   const handleClick = () => {
     if (onClick) {
       onClick();
     }
-    if (closeDropdown) {
-      closeDropdown();
-    }
+    closeDropdown();
   };
 
   // If it's a link, render a Next.js Link

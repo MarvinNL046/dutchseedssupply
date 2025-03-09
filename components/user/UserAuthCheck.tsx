@@ -54,7 +54,7 @@ export default function UserAuthCheck({ children }: { children: React.ReactNode 
     }
     
     checkUserStatus();
-  }, [isAuthenticated, isLoading, router, user, addToast]);
+  }, [isAuthenticated, isLoading, router, user, addToast, refreshUser]);
 
   if (isLoading) {
     return (

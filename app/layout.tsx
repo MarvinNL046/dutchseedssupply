@@ -18,15 +18,28 @@ const robotoMono = Roboto_Mono({
 export const metadata: Metadata = {
   title: "Dutch Seed Supply",
   description: "Premium cannabis zaden voor de Nederlandse markt",
+  alternates: {
+    canonical: 'https://dutchseedsupply.nl',
+    languages: {
+      'nl': 'https://dutchseedsupply.nl',
+      'en': 'https://dutchseedsupply.com',
+      'de': 'https://dutchseedsupply.de',
+      'fr': 'https://dutchseedsupply.fr',
+    },
+  },
 };
+
+// Import cookies function
+import { cookies } from 'next/headers';
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // We gebruiken een vaste taal in plaats van cookies() om problemen te voorkomen
-  const locale = "nl";
+  // Get the locale from the cookie set by middleware
+  const cookieStore = cookies();
+  const locale = cookieStore.get('NEXT_LOCALE')?.value || 'nl'; // Default to Dutch
   
   return (
     <html lang={locale}>
