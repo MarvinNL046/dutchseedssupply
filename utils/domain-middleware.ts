@@ -73,23 +73,20 @@ export async function domainMiddleware(request: NextRequest) {
     // Bepaal de taalcode op basis van het domein
     const locale = getLocaleFromDomain(request.headers.get('host') || '', request);
     
-    // Stel de taalcode in als cookie
-    const response = NextResponse.next();
-    response.cookies.set('NEXT_LOCALE', locale, {
+    // Log voor debugging
+    console.log(`Domain middleware: Host=${request.headers.get('host')}, Detected locale=${locale}`);
+    
+    // Update de Supabase sessie
+    const sessionResponse = await updateSession(request);
+    
+    // Stel de taalcode in als cookie op de sessionResponse
+    sessionResponse.cookies.set('NEXT_LOCALE', locale, {
       path: '/',
       maxAge: 60 * 60 * 24 * 30, // 30 dagen
       sameSite: 'strict',
     });
     
-    // Update de Supabase sessie
-    const sessionResponse = await updateSession(request);
-    
-    // Combineer de cookies van beide responses
-    sessionResponse.cookies.getAll().forEach((cookie) => {
-      response.cookies.set(cookie.name, cookie.value);
-    });
-    
-    return response;
+    return sessionResponse;
   } catch (error) {
     console.error('Error in domainMiddleware:', error);
     return NextResponse.next();
