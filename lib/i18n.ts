@@ -23,9 +23,44 @@ export async function getTranslations(translations: Translations) {
 export function useClientTranslations(translations: Translations) {
   // In a client component, we should prioritize the cookie value for consistency with SSR
   // This helps prevent hydration mismatches
-  const locale = typeof window !== 'undefined' 
-    ? getCookieLocale() || localStorage.getItem('NEXT_LOCALE') || 'nl'
-    : 'nl';
+  let locale = 'nl'; // Default to Dutch
+  
+  if (typeof window !== 'undefined') {
+    // First try to get locale from cookie
+    const cookieLocale = getCookieLocale();
+    if (cookieLocale) {
+      locale = cookieLocale;
+    } else {
+      // If no cookie, try localStorage
+      const localStorageLocale = localStorage.getItem('NEXT_LOCALE');
+      if (localStorageLocale) {
+        locale = localStorageLocale;
+      } else {
+        // If no cookie or localStorage, try to determine from domain
+        const hostname = window.location.hostname;
+        if (!hostname.includes('localhost') && !hostname.includes('vercel.app') && !hostname.includes('127.0.0.1')) {
+          const tld = hostname.split('.').pop();
+          if (tld) {
+            // Map TLD to locale
+            const tldToLocale: Record<string, string> = {
+              'nl': 'nl',
+              'com': 'en',
+              'de': 'de',
+              'fr': 'fr',
+            };
+            
+            if (tldToLocale[tld]) {
+              locale = tldToLocale[tld];
+              
+              // Set the locale in cookie and localStorage for future use
+              document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Strict`;
+              localStorage.setItem('NEXT_LOCALE', locale);
+            }
+          }
+        }
+      }
+    }
+  }
   
   return {
     t: createTranslationFunction(translations, locale),
