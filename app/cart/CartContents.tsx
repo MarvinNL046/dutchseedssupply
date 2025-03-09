@@ -106,8 +106,8 @@ function CartItemRow({
   removeText
 }: { 
   item: CartItem; 
-  removeItem: (variantId: number) => void;
-  updateQuantity: (variantId: number, quantity: number) => void;
+  removeItem: (variantId: string) => void;
+  updateQuantity: (variantId: string, quantity: number) => void;
   removeText: string;
 }) {
   return (
