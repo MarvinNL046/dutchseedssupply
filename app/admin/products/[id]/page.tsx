@@ -3,6 +3,27 @@ import Link from 'next/link';
 import { createServerSupabaseClient } from '@/lib/supabase';
 import ProductForm from '../components/ProductForm';
 
+// Define types for translations and variants
+type ProductTranslation = {
+  id?: string;
+  product_id?: string;
+  language_code: string;
+  description?: string;
+  meta_title?: string;
+  meta_description?: string;
+};
+
+type ProductVariant = {
+  id?: string;
+  product_id?: string;
+  domain_id: string;
+  price: number;
+  sale_price?: number;
+  stock_quantity: number;
+  stock_status?: string;
+  available: boolean;
+};
+
 export default async function AdminProductDetailPage({
   params
 }: {
@@ -30,8 +51,8 @@ export default async function AdminProductDetailPage({
   // Check if this is a new product
   const isNewProduct = params.id === 'new';
   let product = null;
-  let translations = [];
-  let variants = [];
+  let translations: ProductTranslation[] = [];
+  let variants: ProductVariant[] = [];
   
   if (!isNewProduct) {
     // Fetch product details
