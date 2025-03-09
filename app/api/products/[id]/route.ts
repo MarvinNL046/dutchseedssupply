@@ -214,10 +214,11 @@ export async function PUT(
     // Get the request body
     const body = await request.json();
     
-    // Extract product data and translations
+    // Extract product data, translations, and variants
     const { 
       translations = {}, 
-      categories: categoryIds = [], 
+      categories: categoryIds = [],
+      variants = [],
       ...productData 
     } = body;
     
@@ -299,6 +300,52 @@ export async function PUT(
       await supabase
         .from('product_categories')
         .insert(categoryRows);
+    }
+    
+    // Update variants if provided
+    if (variants && variants.length > 0) {
+      // Define interface for variant
+      interface ProductVariant {
+        id?: string;
+        domain_id: string;
+        price: number;
+        sale_price?: number;
+        stock_quantity: number;
+        stock_status?: string;
+        available: boolean;
+      }
+      
+      // First, get existing variants
+      const { data: existingVariants } = await supabase
+        .from('product_variants')
+        .select('id, domain_id')
+        .eq('product_id', productId);
+      
+      const existingDomains = new Map(
+        existingVariants?.map((v: { id: string; domain_id: string }) => [v.domain_id, v.id]) || []
+      );
+      
+      // Process each variant
+      for (const variant of variants) {
+        const { domain_id, ...variantData } = variant as ProductVariant;
+        
+        if (existingDomains.has(domain_id)) {
+          // Update existing variant
+          await supabase
+            .from('product_variants')
+            .update(variantData)
+            .eq('id', existingDomains.get(domain_id));
+        } else {
+          // Insert new variant
+          await supabase
+            .from('product_variants')
+            .insert({
+              product_id: productId,
+              domain_id,
+              ...variantData
+            });
+        }
+      }
     }
     
     return NextResponse.json({ 

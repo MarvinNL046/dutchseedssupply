@@ -201,10 +201,11 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    // Extract product data and translations
+    // Extract product data, translations, and variants
     const { 
       translations = {}, 
-      categories: categoryIds = [], 
+      categories: categoryIds = [],
+      variants = [],
       ...productData 
     } = body;
     
@@ -273,6 +274,33 @@ export async function POST(request: Request) {
       if (categoryError) {
         console.error('Error creating product categories:', categoryError);
         // Continue anyway, we'll return the product without categories
+      }
+    }
+    
+    // Insert variants if provided
+    if (variants && variants.length > 0) {
+      // Define interface for variant
+      interface ProductVariant {
+        domain_id: string;
+        price: number;
+        sale_price?: number;
+        stock_quantity: number;
+        stock_status?: string;
+        available: boolean;
+      }
+      
+      const variantRows = variants.map((variant: ProductVariant) => ({
+        product_id: product.id,
+        ...variant
+      }));
+      
+      const { error: variantError } = await supabase
+        .from('product_variants')
+        .insert(variantRows);
+      
+      if (variantError) {
+        console.error('Error creating product variants:', variantError);
+        // Continue anyway, we'll return the product without variants
       }
     }
     
