@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCart } from '@/components/cart/CartContext';
 import { useClientTranslations } from '@/lib/i18n';
 import translations from '@/locale/translations';
@@ -31,8 +32,15 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           {/* Logo and main navigation */}
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent dark:from-green-400 dark:to-emerald-300">
-              Dutch Seed Supply
+            <Link href="/" className="flex items-center">
+              <Image 
+                src="/images/dutchseedsupply-transaparante-achtergrond.png" 
+                alt="Dutch Seed Supply Logo" 
+                width={150} 
+                height={50} 
+                className="h-10 w-auto"
+                priority
+              />
             </Link>
             <div className="ml-10 hidden md:flex items-center space-x-6">
               <Link href="/products" className="text-green-800 dark:text-green-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200">

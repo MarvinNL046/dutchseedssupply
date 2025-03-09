@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useClientTranslations } from '@/lib/i18n';
 import translations from '@/locale/translations';
 import DomainLanguageSwitcher from '@/components/DomainLanguageSwitcher';
@@ -16,9 +17,15 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Dutch Seed Supply
-            </h3>
+            <div className="mb-4">
+              <Image 
+                src="/images/dutchseedsupply-witte-achtergrond.jpg" 
+                alt="Dutch Seed Supply Logo" 
+                width={180} 
+                height={60} 
+                className="h-12 w-auto"
+              />
+            </div>
             <p className="text-gray-600 dark:text-gray-400 mb-4">
               Premium cannabis seeds for every grower.
             </p>
