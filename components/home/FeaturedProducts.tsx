@@ -2,15 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselNext, 
-  CarouselPrevious 
-} from "@/components/ui/carousel";
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { CarouselItem, CarouselContent } from "@/components/ui/GlassyCarousel";
+import { GlassyCarousel } from "@/components/ui/GlassyCarousel";
 import { Button } from "@/components/ui/button";
+import GlassyProductCard from "./GlassyProductCard";
+import { motion } from "framer-motion";
 
 // Define types for our data
 type Product = {
@@ -101,9 +97,17 @@ export default function FeaturedProducts() {
 
   if (isLoading) {
     return (
-      <div className="py-16 bg-gray-50 dark:bg-gray-900">
+      <div className="py-16 bg-gradient-to-b from-green-50 to-white dark:from-green-950 dark:to-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center mb-12">Featured Seeds</h2>
+          <motion.h2 
+            className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            Featured Seeds
+          </motion.h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-12"></div>
           <div className="flex justify-center">
             <div className="w-full h-64 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-lg"></div>
           </div>
@@ -113,58 +117,57 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <div className="py-16 bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold text-center mb-12">Featured Seeds</h2>
-        
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full"
+    <div className="py-16 bg-gradient-to-b from-green-50 to-white dark:from-green-950 dark:to-gray-900 relative overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-24 -left-24 w-48 h-48 rounded-full bg-green-500/5 blur-3xl"></div>
+        <div className="absolute top-1/3 -right-24 w-64 h-64 rounded-full bg-emerald-500/5 blur-3xl"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          <CarouselContent>
-            {featuredProducts.map((variant) => (
-              <CarouselItem key={variant.product_id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
-                <div className="p-1">
-                  <Card className="overflow-hidden">
-                    <div className="h-48 bg-gray-200 dark:bg-gray-700 relative">
-                      {/* Placeholder for product image */}
-                      <div className="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400">
-                        Seed Image
-                      </div>
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="text-lg font-semibold mb-2">{variant.products.name}</h3>
-                      <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">
-                        {variant.products.description}
-                      </p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-lg font-bold">€{variant.price.toFixed(2)}</span>
-                        <span className={`text-sm ${variant.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-                          {variant.stock > 0 ? `${variant.stock} in stock` : 'Out of stock'}
-                        </span>
-                      </div>
-                    </CardContent>
-                    <CardFooter className="p-4 pt-0">
-                      <Button asChild className="w-full bg-green-600 hover:bg-green-700">
-                        <Link href={`/products/${variant.products.id}`}>View Details</Link>
-                      </Button>
-                    </CardFooter>
-                  </Card>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <div className="flex justify-center mt-8">
-            <CarouselPrevious className="relative mr-2" />
-            <CarouselNext className="relative ml-2" />
-          </div>
-        </Carousel>
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block">
+            Featured Seeds
+          </h2>
+          <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-6"></div>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+            Explore our selection of premium cannabis seeds, each carefully selected for quality and potency.
+          </p>
+        </motion.div>
+        
+        {/* Desktop Glassy Carousel */}
+        <div className="hidden lg:block">
+          <GlassyCarousel
+            opts={{
+              align: "start",
+              loop: true,
+            }}
+            className="w-full px-4"
+          >
+            <CarouselContent>
+              {featuredProducts.map((variant, index) => (
+                <CarouselItem key={variant.product_id} className="md:basis-1/2 lg:basis-1/3 xl:basis-1/4 p-2">
+                  <GlassyProductCard variant={variant} index={index} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </GlassyCarousel>
+        </div>
+        
+        {/* Mobile Standard Cards */}
+        <div className="lg:hidden grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {featuredProducts.slice(0, 4).map((variant, index) => (
+            <GlassyProductCard key={variant.product_id} variant={variant} index={index} />
+          ))}
+        </div>
         
         <div className="text-center mt-10">
-          <Button asChild variant="outline" className="border-green-600 text-green-600 hover:bg-green-50 dark:hover:bg-green-950">
+          <Button asChild variant="gradient" className="px-8 py-6 text-lg">
             <Link href="/products">View All Products</Link>
           </Button>
         </div>
