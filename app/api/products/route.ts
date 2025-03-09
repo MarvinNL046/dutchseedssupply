@@ -1,4 +1,4 @@
-import { createServerSupabaseClient, getLocale } from '@/lib/supabase';
+import { createServerSupabaseClient, getLocale, getDomainId } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -14,8 +14,9 @@ export async function GET(request: Request) {
     // Calculate pagination
     const offset = (page - 1) * limit;
     
-    // Get the current locale
+    // Get the current locale and domain ID
     const locale = await getLocale();
+    const domainId = await getDomainId();
     
     // Create Supabase client
     const supabase = await createServerSupabaseClient();
@@ -26,12 +27,29 @@ export async function GET(request: Request) {
       .select(`
         *,
         product_translations(*),
+        product_variants(*),
         product_categories(
           category_id,
           categories(*)
         )
       `)
       .eq('product_translations.language_code', locale);
+    
+    // Check if product_variants table exists and filter by domain
+    try {
+      // Try to select from product_variants to see if it exists
+      const { error: variantsError } = await supabase
+        .from('product_variants')
+        .select('id')
+        .limit(1);
+      
+      if (!variantsError) {
+        // If no error, the table exists, so we can filter by domain
+        query = query.eq('product_variants.domain_id', domainId);
+      }
+    } catch (err) {
+      console.log('product_variants table might not exist yet, skipping domain filtering:', err);
+    }
     
     // Apply filters
     if (category) {
@@ -108,10 +126,24 @@ export async function GET(request: Request) {
       updated_at: string;
     }
     
+    interface ProductVariant {
+      id: string;
+      product_id: string;
+      domain_id: string;
+      price: number;
+      sale_price?: number;
+      stock_quantity: number;
+      stock_status: string;
+      available: boolean;
+      created_at: string;
+      updated_at: string;
+    }
+    
     // Process the products to format them correctly
     const formattedProducts = products?.map(product => {
       const translation = product.product_translations?.[0] as ProductTranslation || {};
       const categories = product.product_categories?.map((pc: ProductCategory) => pc.categories) || [];
+      const variant = product.product_variants?.[0] as ProductVariant;
       
       return {
         ...product,
@@ -119,9 +151,16 @@ export async function GET(request: Request) {
         meta_title: translation.meta_title || '',
         meta_description: translation.meta_description || '',
         categories,
+        // Use variant price and stock if available
+        price: variant?.price || product.price,
+        sale_price: variant?.sale_price || product.sale_price,
+        stock_quantity: variant?.stock_quantity || product.stock_quantity,
+        stock_status: variant?.stock_status || product.stock_status,
+        available: variant?.available !== undefined ? variant.available : true,
         // Remove the nested objects to clean up the response
         product_translations: undefined,
-        product_categories: undefined
+        product_categories: undefined,
+        product_variants: undefined
       };
     }) || [];
     

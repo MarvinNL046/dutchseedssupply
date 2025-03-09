@@ -12,10 +12,14 @@ type Product = {
 };
 
 type ProductVariant = {
-  product_id: number;
+  id: string;
+  product_id: string;
   domain_id: string;
   price: number;
-  stock: number;
+  sale_price?: number;
+  stock_quantity: number;
+  stock_status: string;
+  available: boolean;
 };
 
 type RelatedProduct = {
@@ -103,10 +107,10 @@ export default async function ProductDetailPage({
               
               <div className="mb-6">
                 <div className={`inline-block px-3 py-1 rounded-full text-sm ${
-                  variant.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                  variant.stock_quantity > 0 ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                 }`}>
-                  {variant.stock > 0 
-                    ? `${variant.stock} ${t('inStock') || 'op voorraad'}`
+                  {variant.stock_quantity > 0 
+                    ? `${variant.stock_quantity} ${t('inStock') || 'op voorraad'}`
                     : t('outOfStock') || 'Niet op voorraad'
                   }
                 </div>
@@ -116,7 +120,7 @@ export default async function ProductDetailPage({
                 <p>{product.description}</p>
               </div>
               
-              {variant.stock > 0 && (
+              {variant.stock_quantity > 0 && (
                 <AddToCartButtonWrapper 
                   product={product} 
                   variant={variant} 

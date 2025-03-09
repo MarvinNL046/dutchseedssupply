@@ -10,10 +10,14 @@ type Product = {
 };
 
 type ProductVariant = {
-  product_id: number;
+  id: string;
+  product_id: string;
   domain_id: string;
   price: number;
-  stock: number;
+  sale_price?: number;
+  stock_quantity: number;
+  stock_status: string;
+  available: boolean;
 };
 
 type AddToCartButtonProps = {
@@ -36,7 +40,7 @@ export default function AddToCartButton({
     // Add the item to the cart
     addItem({
       productId: product.id,
-      variantId: variant.product_id, // Using product_id as variant ID
+      variantId: variant.id, // Using variant ID
       name: product.name,
       price: variant.price,
       domainId: variant.domain_id,
@@ -51,12 +55,12 @@ export default function AddToCartButton({
   return (
     <button
       onClick={handleAddToCart}
-      disabled={isAdding || variant.stock <= 0}
+      disabled={isAdding || variant.stock_quantity <= 0}
       className={`
         px-6 py-3 rounded-md font-medium text-white transition-colors
         ${isAdding 
           ? 'bg-green-500' 
-          : variant.stock > 0 
+          : variant.stock_quantity > 0 
             ? 'bg-blue-600 hover:bg-blue-700' 
             : 'bg-gray-400 cursor-not-allowed'
         }

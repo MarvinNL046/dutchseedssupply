@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 // Define types for cart items
 export type CartItem = {
   productId: number;
-  variantId: number;
+  variantId: string;
   name: string;
   price: number;
   quantity: number;
@@ -16,8 +16,8 @@ export type CartItem = {
 type CartContextType = {
   items: CartItem[];
   addItem: (item: Omit<CartItem, 'quantity'>) => void;
-  removeItem: (variantId: number) => void;
-  updateQuantity: (variantId: number, quantity: number) => void;
+  removeItem: (variantId: string) => void;
+  updateQuantity: (variantId: string, quantity: number) => void;
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
@@ -82,12 +82,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   };
   
   // Remove an item from the cart
-  const removeItem = (variantId: number) => {
+  const removeItem = (variantId: string) => {
     setItems(prevItems => prevItems.filter(item => item.variantId !== variantId));
   };
   
   // Update the quantity of an item
-  const updateQuantity = (variantId: number, quantity: number) => {
+  const updateQuantity = (variantId: string, quantity: number) => {
     if (quantity <= 0) {
       removeItem(variantId);
       return;

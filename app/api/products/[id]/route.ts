@@ -1,4 +1,4 @@
-import { createServerSupabaseClient, getLocale } from '@/lib/supabase';
+import { createServerSupabaseClient, getLocale, getDomainId } from '@/lib/supabase';
 import { NextResponse } from 'next/server';
 
 export async function GET(
@@ -14,13 +14,14 @@ export async function GET(
       }, { status: 400 });
     }
     
-    // Get the current locale
+    // Get the current locale and domain ID
     const locale = await getLocale();
+    const domainId = await getDomainId();
     
     // Create Supabase client
     const supabase = await createServerSupabaseClient();
     
-    // Fetch product details with translations and categories
+    // Fetch product details with translations, categories, and variants
     const { data: product, error: productError } = await supabase
       .from('products')
       .select(`
@@ -29,7 +30,8 @@ export async function GET(
         product_categories(
           category_id,
           categories(*)
-        )
+        ),
+        product_variants(*)
       `)
       .eq('id', productId)
       .single();
@@ -81,6 +83,20 @@ export async function GET(
       categories: Category;
     }
     
+    // Define interface for product variant
+    interface ProductVariant {
+      id: string;
+      product_id: string;
+      domain_id: string;
+      price: number;
+      sale_price?: number;
+      stock_quantity: number;
+      stock_status: string;
+      available: boolean;
+      created_at: string;
+      updated_at: string;
+    }
+    
     // Find the translation for the current locale
     const translation = product.product_translations?.find(
       (t: ProductTranslation) => t.language_code === locale
@@ -91,18 +107,32 @@ export async function GET(
       (pc: ProductCategory) => pc.categories
     ) || [];
     
-    // Format the product with translations
+    // Find the variant for the current domain
+    const variant = product.product_variants?.find(
+      (v: ProductVariant) => v.domain_id === domainId
+    );
+    
+    // Format the product with translations and variant
     const formattedProduct = {
       ...product,
       description: translation.description || '',
       meta_title: translation.meta_title || '',
       meta_description: translation.meta_description || '',
       categories,
+      // Use variant price and stock if available
+      price: variant?.price || product.price,
+      sale_price: variant?.sale_price || product.sale_price,
+      stock_quantity: variant?.stock_quantity || product.stock_quantity,
+      stock_status: variant?.stock_status || product.stock_status,
+      available: variant?.available !== undefined ? variant.available : true,
+      // Include variant for the current domain
+      variant: variant || null,
       // Include all translations for admin purposes
       translations: product.product_translations,
       // Remove the nested objects to clean up the response
       product_translations: undefined,
-      product_categories: undefined
+      product_categories: undefined,
+      product_variants: undefined
     };
     
     // Fetch related products (products in the same categories)

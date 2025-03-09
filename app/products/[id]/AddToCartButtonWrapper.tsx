@@ -10,10 +10,14 @@ type Product = {
 };
 
 type ProductVariant = {
-  product_id: number;
+  id: string;
+  product_id: string;
   domain_id: string;
   price: number;
-  stock: number;
+  sale_price?: number;
+  stock_quantity: number;
+  stock_status: string;
+  available: boolean;
 };
 
 type AddToCartButtonWrapperProps = {
