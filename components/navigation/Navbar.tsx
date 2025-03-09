@@ -28,7 +28,7 @@ export default function Navbar() {
   
   return (
     <nav className="bg-gradient-to-r from-white to-green-50 dark:from-green-950 dark:to-green-900 shadow-md border-b border-green-100 dark:border-green-800">
-      <div className="container mx-auto px-6 py-3">
+      <div className="container mx-auto px-6 py-4">
         <div className="flex justify-between items-center">
           {/* Logo and main navigation */}
           <div className="flex items-center">
@@ -36,13 +36,13 @@ export default function Navbar() {
               <Image 
                 src="/images/dutchseedsupply-transaparante-achtergrond.png" 
                 alt="Dutch Seed Supply Logo" 
-                width={150} 
-                height={50} 
-                className="h-10 w-auto"
+                width={240} 
+                height={80} 
+                className="h-16 w-auto"
                 priority
               />
             </Link>
-            <div className="ml-10 hidden md:flex items-center space-x-6">
+            <div className="ml-12 hidden md:flex items-center space-x-6">
               <Link href="/products" className="text-green-800 dark:text-green-300 hover:text-green-600 dark:hover:text-green-400 transition-colors duration-200">
                 {t('products') || 'Products'}
               </Link>
