@@ -4,6 +4,7 @@ import "./globals.css";
 import ClientProviders from "@/components/ClientProviders";
 import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/navigation/Footer";
+import ConstructionBanner from "@/components/ui/ConstructionBanner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -48,6 +49,8 @@ export default function RootLayout({
       >
         <ClientProviders>
           <Navbar />
+          {/* Construction banner */}
+          <ConstructionBanner />
           <main className="min-h-screen">
             {children}
           </main>
