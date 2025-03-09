@@ -65,8 +65,7 @@ async function generateProductSitemaps() {
     // Fetch all products from the database
     const { data: products, error } = await supabase
       .from('products')
-      .select('id, slug')
-      .eq('active', true);
+      .select('id, slug');
 
     if (error) {
       throw error;
