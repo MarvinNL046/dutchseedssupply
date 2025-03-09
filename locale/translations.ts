@@ -13,6 +13,38 @@ const translations: Translations = {
     editingHint: 'Get started by editing {{file}}.',
     saveChanges: 'Save and see your changes instantly.',
     
+    // Hero Section
+    premiumCannabisSeeds: 'Premium Cannabis Seeds',
+    forEveryGrower: 'for Every Grower',
+    discoverCollection: 'Discover our collection of high-quality cannabis seeds, carefully selected for potency, yield, and reliability.',
+    shopNow: 'Shop Now',
+    exploreVarieties: 'Explore Varieties',
+    scrollToExplore: 'Scroll to explore',
+    
+    // Featured Products
+    featuredSeeds: 'Featured Seeds',
+    exploreSelection: 'Explore our selection of premium cannabis seeds, each carefully selected for quality and potency.',
+    viewAllProducts: 'View All Products',
+    
+    // Hero Carousel
+    autofloweringVarieties: 'Autoflowering Varieties',
+    easyToGrow: 'Easy to Grow',
+    autofloweringDescription: 'Perfect for beginners, our autoflowering seeds provide hassle-free growing with exceptional results every time.',
+    feminizedSeeds: 'Feminized Seeds',
+    maximumYield: 'Maximum Yield',
+    feminizedDescription: 'Our feminized seeds ensure 99% female plants, maximizing your harvest and eliminating wasted resources.',
+    cbdStrains: 'CBD Strains',
+    therapeuticBenefits: 'Therapeutic Benefits',
+    cbdDescription: 'Explore our selection of CBD-rich strains, perfect for medicinal users seeking therapeutic effects without the high.',
+    featuredStrain: 'Featured Strain',
+    featured: 'Featured',
+    strainImage: 'Strain Image',
+    thc: 'THC:',
+    cbd: 'CBD:',
+    flowering: 'Flowering:',
+    yield: 'Yield:',
+    viewDetails: 'View Details',
+    
     // Products
     products: 'Products',
     noProductsFound: 'No products found for this region.',
@@ -86,6 +118,38 @@ const translations: Translations = {
     readDocs: 'Lees onze documentatie',
     editingHint: 'Begin met het bewerken van {{file}}.',
     saveChanges: 'Sla op en zie je wijzigingen direct.',
+    
+    // Hero Section
+    premiumCannabisSeeds: 'Premium Cannabis Zaden',
+    forEveryGrower: 'voor Elke Kweker',
+    discoverCollection: 'Ontdek onze collectie hoogwaardige cannabis zaden, zorgvuldig geselecteerd op potentie, opbrengst en betrouwbaarheid.',
+    shopNow: 'Nu Winkelen',
+    exploreVarieties: 'Verken Variëteiten',
+    scrollToExplore: 'Scroll om te verkennen',
+    
+    // Featured Products
+    featuredSeeds: 'Uitgelichte Zaden',
+    exploreSelection: 'Verken onze selectie premium cannabis zaden, elk zorgvuldig geselecteerd op kwaliteit en potentie.',
+    viewAllProducts: 'Bekijk Alle Producten',
+    
+    // Hero Carousel
+    autofloweringVarieties: 'Autoflowering Variëteiten',
+    easyToGrow: 'Gemakkelijk te Kweken',
+    autofloweringDescription: 'Perfect voor beginners, onze autoflowering zaden zorgen voor probleemloos kweken met uitzonderlijke resultaten elke keer.',
+    feminizedSeeds: 'Gefeminiseerde Zaden',
+    maximumYield: 'Maximale Opbrengst',
+    feminizedDescription: 'Onze gefeminiseerde zaden zorgen voor 99% vrouwelijke planten, maximaliseren je oogst en elimineren verspilde middelen.',
+    cbdStrains: 'CBD Soorten',
+    therapeuticBenefits: 'Therapeutische Voordelen',
+    cbdDescription: 'Verken onze selectie CBD-rijke soorten, perfect voor medicinale gebruikers die therapeutische effecten zoeken zonder high te worden.',
+    featuredStrain: 'Uitgelichte Soort',
+    featured: 'Uitgelicht',
+    strainImage: 'Soort Afbeelding',
+    thc: 'THC:',
+    cbd: 'CBD:',
+    flowering: 'Bloeiperiode:',
+    yield: 'Opbrengst:',
+    viewDetails: 'Bekijk Details',
     
     // Products
     products: 'Producten',
@@ -161,6 +225,38 @@ const translations: Translations = {
     editingHint: 'Beginnen Sie mit der Bearbeitung von {{file}}.',
     saveChanges: 'Speichern Sie und sehen Sie Ihre Änderungen sofort.',
     
+    // Hero Section
+    premiumCannabisSeeds: 'Premium Cannabis Samen',
+    forEveryGrower: 'für jeden Züchter',
+    discoverCollection: 'Entdecken Sie unsere Sammlung hochwertiger Cannabis-Samen, sorgfältig ausgewählt für Potenz, Ertrag und Zuverlässigkeit.',
+    shopNow: 'Jetzt Einkaufen',
+    exploreVarieties: 'Sorten Erkunden',
+    scrollToExplore: 'Scrollen Sie zum Erkunden',
+    
+    // Featured Products
+    featuredSeeds: 'Ausgewählte Samen',
+    exploreSelection: 'Entdecken Sie unsere Auswahl an Premium-Cannabis-Samen, jeder sorgfältig ausgewählt für Qualität und Potenz.',
+    viewAllProducts: 'Alle Produkte Anzeigen',
+    
+    // Hero Carousel
+    autofloweringVarieties: 'Autoflowering Sorten',
+    easyToGrow: 'Leicht zu Züchten',
+    autofloweringDescription: 'Perfekt für Anfänger, unsere Autoflowering-Samen sorgen für problemloses Wachstum mit außergewöhnlichen Ergebnissen jedes Mal.',
+    feminizedSeeds: 'Feminisierte Samen',
+    maximumYield: 'Maximaler Ertrag',
+    feminizedDescription: 'Unsere feminisierten Samen garantieren 99% weibliche Pflanzen, maximieren Ihre Ernte und eliminieren verschwendete Ressourcen.',
+    cbdStrains: 'CBD Sorten',
+    therapeuticBenefits: 'Therapeutische Vorteile',
+    cbdDescription: 'Entdecken Sie unsere Auswahl an CBD-reichen Sorten, perfekt für medizinische Anwender, die therapeutische Wirkungen ohne Rausch suchen.',
+    featuredStrain: 'Ausgewählte Sorte',
+    featured: 'Ausgewählt',
+    strainImage: 'Sortenabbildung',
+    thc: 'THC:',
+    cbd: 'CBD:',
+    flowering: 'Blütezeit:',
+    yield: 'Ertrag:',
+    viewDetails: 'Details Anzeigen',
+    
     // Products
     products: 'Produkte',
     noProductsFound: 'Keine Produkte für diese Region gefunden.',
@@ -234,6 +330,38 @@ const translations: Translations = {
     readDocs: 'Lire notre documentation',
     editingHint: 'Commencez par éditer {{file}}.',
     saveChanges: 'Enregistrez et voyez vos changements instantanément.',
+    
+    // Hero Section
+    premiumCannabisSeeds: 'Graines de Cannabis Premium',
+    forEveryGrower: 'pour Chaque Cultivateur',
+    discoverCollection: 'Découvrez notre collection de graines de cannabis de haute qualité, soigneusement sélectionnées pour leur puissance, leur rendement et leur fiabilité.',
+    shopNow: 'Acheter Maintenant',
+    exploreVarieties: 'Explorer les Variétés',
+    scrollToExplore: 'Faites défiler pour explorer',
+    
+    // Featured Products
+    featuredSeeds: 'Graines en Vedette',
+    exploreSelection: 'Explorez notre sélection de graines de cannabis premium, chacune soigneusement sélectionnée pour sa qualité et sa puissance.',
+    viewAllProducts: 'Voir Tous les Produits',
+    
+    // Hero Carousel
+    autofloweringVarieties: 'Variétés Autofloraison',
+    easyToGrow: 'Faciles à Cultiver',
+    autofloweringDescription: 'Parfaites pour les débutants, nos graines autofloraison offrent une culture sans tracas avec des résultats exceptionnels à chaque fois.',
+    feminizedSeeds: 'Graines Féminisées',
+    maximumYield: 'Rendement Maximal',
+    feminizedDescription: 'Nos graines féminisées garantissent 99% de plantes femelles, maximisant votre récolte et éliminant le gaspillage de ressources.',
+    cbdStrains: 'Variétés CBD',
+    therapeuticBenefits: 'Bienfaits Thérapeutiques',
+    cbdDescription: 'Explorez notre sélection de variétés riches en CBD, parfaites pour les utilisateurs médicinaux recherchant des effets thérapeutiques sans l\'euphorie.',
+    featuredStrain: 'Variété en Vedette',
+    featured: 'En Vedette',
+    strainImage: 'Image de la Variété',
+    thc: 'THC:',
+    cbd: 'CBD:',
+    flowering: 'Floraison:',
+    yield: 'Rendement:',
+    viewDetails: 'Voir les Détails',
     
     // Products
     products: 'Produits',

@@ -7,6 +7,8 @@ import { GlassyCarousel } from "@/components/ui/GlassyCarousel";
 import { Button } from "@/components/ui/button";
 import GlassyProductCard from "./GlassyProductCard";
 import { motion } from "framer-motion";
+import { useClientTranslations } from "@/lib/i18n";
+import translations from "@/locale/translations";
 
 // Define types for our data
 type Product = {
@@ -24,6 +26,7 @@ type ProductVariant = {
 };
 
 export default function FeaturedProducts() {
+  const { t } = useClientTranslations(translations);
   const [featuredProducts, setFeaturedProducts] = useState<ProductVariant[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -105,7 +108,7 @@ export default function FeaturedProducts() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            Featured Seeds
+            {t('featuredSeeds')}
           </motion.h2>
           <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-12"></div>
           <div className="flex justify-center">
@@ -132,11 +135,11 @@ export default function FeaturedProducts() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block">
-            Featured Seeds
+            {t('featuredSeeds')}
           </h2>
           <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-6"></div>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Explore our selection of premium cannabis seeds, each carefully selected for quality and potency.
+            {t('exploreSelection')}
           </p>
         </motion.div>
         
@@ -168,7 +171,7 @@ export default function FeaturedProducts() {
         
         <div className="text-center mt-10">
           <Button asChild variant="gradient" className="px-8 py-6 text-lg">
-            <Link href="/products">View All Products</Link>
+            <Link href="/products">{t('viewAllProducts')}</Link>
           </Button>
         </div>
       </div>
