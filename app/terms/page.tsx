@@ -27,11 +27,11 @@ export default function TermsOfServicePage() {
           <h2 className="text-2xl font-semibold mb-3">Definitions</h2>
           <p>In these terms and conditions, the following definitions apply:</p>
           <ul className="list-disc pl-6 mt-2 space-y-1">
-            <li><strong>"We", "us", "our"</strong> refers to Dutch Seed Supply B.V., a company registered in the Netherlands.</li>
-            <li><strong>"Website"</strong> refers to the website located at www.dutchseedsupply.com and all associated subdomains.</li>
-            <li><strong>"You", "your"</strong> refers to the user or viewer of our website, or the customer placing an order.</li>
-            <li><strong>"Products"</strong> refers to the items offered for sale on our website.</li>
-            <li><strong>"Order"</strong> refers to your request to purchase products from us.</li>
+            <li><strong>&quot;We&quot;, &quot;us&quot;, &quot;our&quot;</strong> refers to Dutch Seed Supply B.V., a company registered in the Netherlands.</li>
+            <li><strong>&quot;Website&quot;</strong> refers to the website located at www.dutchseedsupply.com and all associated subdomains.</li>
+            <li><strong>&quot;You&quot;, &quot;your&quot;</strong> refers to the user or viewer of our website, or the customer placing an order.</li>
+            <li><strong>&quot;Products&quot;</strong> refers to the items offered for sale on our website.</li>
+            <li><strong>&quot;Order&quot;</strong> refers to your request to purchase products from us.</li>
           </ul>
         </section>
 

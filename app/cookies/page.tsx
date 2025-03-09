@@ -13,7 +13,7 @@ export default function CookiePolicyPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-3">Introduction</h2>
           <p>
-            This Cookie Policy explains how Dutch Seed Supply B.V. ("we", "us", or "our") uses cookies and similar technologies on our website www.dutchseedsupply.com. This policy should be read alongside our Privacy Policy, which explains how we use your personal information.
+            This Cookie Policy explains how Dutch Seed Supply B.V. (&quot;we&quot;, &quot;us&quot;, or &quot;our&quot;) uses cookies and similar technologies on our website www.dutchseedsupply.com. This policy should be read alongside our Privacy Policy, which explains how we use your personal information.
           </p>
           <p className="mt-2">
             By continuing to browse or use our website, you agree to our use of cookies as described in this policy.
@@ -99,7 +99,7 @@ export default function CookiePolicyPage() {
             <li><strong>Social media:</strong> If you use social media sharing buttons on our website, these companies may place cookies on your device.</li>
           </ul>
           <p className="mt-2">
-            We do not control these third-party cookies. You can check the third party's website for more information about these cookies and how to manage them.
+            We do not control these third-party cookies. You can check the third party&apos;s website for more information about these cookies and how to manage them.
           </p>
         </section>
 

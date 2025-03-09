@@ -29,7 +29,7 @@ export default function ContactPage() {
         <div>
           <p className="mb-6">
             Have questions about our products or need assistance with your order? 
-            Our customer service team is here to help. Fill out the form and we'll 
+            Our customer service team is here to help. Fill out the form and we&apos;ll 
             get back to you as soon as possible.
           </p>
           
@@ -77,7 +77,7 @@ export default function ContactPage() {
           <CardHeader>
             <CardTitle>Send us a message</CardTitle>
             <CardDescription>
-              Fill out the form below and we'll get back to you as soon as possible.
+              Fill out the form below and we&apos;ll get back to you as soon as possible.
             </CardDescription>
           </CardHeader>
           <CardContent>

@@ -16,7 +16,7 @@ export default function ShippingPage() {
             At Dutch Seed Supply, we strive to deliver your orders promptly and securely. We ship to most countries worldwide, with a few exceptions due to local regulations regarding seed imports.
           </p>
           <p className="mt-2">
-            Please note that it is the customer's responsibility to check local regulations regarding the import of seeds before placing an order. Dutch Seed Supply cannot be held responsible for any customs issues, confiscations, or legal problems that may arise from importing seeds into your country.
+            Please note that it is the customer&apos;s responsibility to check local regulations regarding the import of seeds before placing an order. Dutch Seed Supply cannot be held responsible for any customs issues, confiscations, or legal problems that may arise from importing seeds into your country.
           </p>
         </section>
 
@@ -130,7 +130,7 @@ export default function ShippingPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-3">Tracking Your Order</h2>
           <p>
-            Once your order is shipped, you will receive a shipping confirmation email with a tracking number. You can use this tracking number to monitor the status of your delivery on our website or directly on the carrier's website.
+            Once your order is shipped, you will receive a shipping confirmation email with a tracking number. You can use this tracking number to monitor the status of your delivery on our website or directly on the carrier&apos;s website.
           </p>
           <p className="mt-2">
             If you have not received a tracking number within 3 business days after receiving your order confirmation, please contact our customer service team at orders@dutchseedsupply.com.
@@ -160,7 +160,7 @@ export default function ShippingPage() {
         <section>
           <h2 className="text-2xl font-semibold mb-3">Shipping Address</h2>
           <p>
-            It is the customer's responsibility to provide a correct and complete shipping address. Dutch Seed Supply is not responsible for packages that are lost or delayed due to incorrect address information.
+            It is the customer&apos;s responsibility to provide a correct and complete shipping address. Dutch Seed Supply is not responsible for packages that are lost or delayed due to incorrect address information.
           </p>
           <p className="mt-2">
             If you need to change your shipping address after placing an order, please contact us as soon as possible at orders@dutchseedsupply.com. We will do our best to accommodate your request, but we cannot guarantee that we can change the address once the order has been processed.

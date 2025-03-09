@@ -20,7 +20,7 @@ export default function FAQPage() {
     },
     {
       question: 'Do you ship internationally?',
-      answer: 'Yes, we ship to most countries worldwide. However, please note that some countries have restrictions on importing seeds. It is the customer\'s responsibility to check local regulations before placing an order.'
+      answer: 'Yes, we ship to most countries worldwide. However, please note that some countries have restrictions on importing seeds. It is the customer&apos;s responsibility to check local regulations before placing an order.'
     },
     {
       question: 'What payment methods do you accept?',
@@ -59,7 +59,7 @@ export default function FAQPage() {
   return (
     <InfoPageLayout title="Frequently Asked Questions">
       <p className="text-lg mb-8">
-        Find answers to the most commonly asked questions about Dutch Seed Supply, our products, shipping, and more. If you can't find the answer you're looking for, please don't hesitate to <a href="/contact" className="text-primary hover:underline">contact us</a>.
+        Find answers to the most commonly asked questions about Dutch Seed Supply, our products, shipping, and more. If you can&apos;t find the answer you&apos;re looking for, please don&apos;t hesitate to <a href="/contact" className="text-primary hover:underline">contact us</a>.
       </p>
       
       <Accordion type="single" collapsible className="w-full">
