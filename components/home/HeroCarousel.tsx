@@ -79,7 +79,7 @@ export default function HeroCarousel() {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
   }, []);
 
-  // Animation variants
+  // Animation variants - softer transitions
   const slideVariants = {
     enter: (direction: number) => ({
       x: direction > 0 ? '100%' : '-100%',
@@ -89,16 +89,16 @@ export default function HeroCarousel() {
       x: 0,
       opacity: 1,
       transition: {
-        x: { type: 'spring', stiffness: 300, damping: 30 },
-        opacity: { duration: 0.4 },
+        x: { type: 'spring', stiffness: 120, damping: 45 },
+        opacity: { duration: 0.8, ease: 'easeInOut' },
       },
     },
     exit: (direction: number) => ({
       x: direction > 0 ? '-100%' : '100%',
       opacity: 0,
       transition: {
-        x: { type: 'spring', stiffness: 300, damping: 30 },
-        opacity: { duration: 0.4 },
+        x: { type: 'spring', stiffness: 120, damping: 45 },
+        opacity: { duration: 0.8, ease: 'easeInOut' },
       },
     }),
   };
@@ -157,14 +157,60 @@ export default function HeroCarousel() {
           {/* Subtle texture overlay */}
           <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjZmZmIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiMwMDAiPjwvcmVjdD4KPC9zdmc+')]"></div>
           
-          {/* Content with glassmorphism effect */}
+          {/* Decorative floating elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <motion.div 
+              className="absolute top-[15%] right-[10%] w-16 h-16 rounded-full bg-white/5 backdrop-blur-md"
+              animate={{ 
+                y: [0, -15, 0], 
+                rotate: [0, 5, 0],
+                scale: [1, 1.05, 1]
+              }}
+              transition={{ 
+                duration: 6, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+            />
+            <motion.div 
+              className="absolute bottom-[20%] left-[15%] w-20 h-20 rounded-full bg-white/5 backdrop-blur-md"
+              animate={{ 
+                y: [0, 20, 0], 
+                rotate: [0, -8, 0],
+                scale: [1, 1.08, 1]
+              }}
+              transition={{ 
+                duration: 8, 
+                repeat: Infinity, 
+                ease: "easeInOut",
+                delay: 1
+              }}
+            />
+            <motion.div 
+              className="absolute top-[40%] left-[8%] w-12 h-12 rounded-full bg-white/5 backdrop-blur-md"
+              animate={{ 
+                y: [0, 12, 0], 
+                x: [0, 8, 0],
+                rotate: [0, 15, 0]
+              }}
+              transition={{ 
+                duration: 7, 
+                repeat: Infinity, 
+                ease: "easeInOut",
+                delay: 2
+              }}
+            />
+          </div>
+          
+          {/* Content with glassmorphism effect - main and secondary cards */}
           <motion.div 
-            className="relative z-10 flex flex-col items-start justify-center h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+            className="relative z-10 flex flex-col md:flex-row items-start justify-center h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-6 lg:gap-10"
             variants={contentVariants}
             initial="hidden"
             animate="visible"
           >
-            <div className="max-w-2xl backdrop-blur-sm bg-black/20 p-8 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
+            {/* Main content card */}
+            <div className="max-w-2xl backdrop-blur-md bg-black/20 p-8 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)]">
               <motion.h1 
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
                 variants={itemVariants}
@@ -212,6 +258,58 @@ export default function HeroCarousel() {
                 </Button>
               </motion.div>
             </div>
+            
+            {/* Secondary featured card - only visible on desktop */}
+            <motion.div 
+              variants={itemVariants}
+              className="hidden lg:block w-80 h-auto backdrop-blur-md bg-black/15 p-6 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] self-center"
+            >
+              <div className="relative mb-4 overflow-hidden rounded-lg h-40 bg-black/20">
+                <div className={`absolute inset-0 ${slides[currentSlide].bgClass} opacity-50`}></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className="text-white/70 text-sm">Strain Image</span>
+                </div>
+                <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 rounded-full text-xs text-white">
+                  Featured
+                </div>
+              </div>
+              
+              <h3 className="text-xl font-bold text-white mb-2">
+                Featured Strain
+              </h3>
+              
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between">
+                  <span className="text-white/70">THC:</span>
+                  <span className="text-white font-medium">18-24%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">CBD:</span>
+                  <span className="text-white font-medium">0.1-1%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">Flowering:</span>
+                  <span className="text-white font-medium">8-9 weeks</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/70">Yield:</span>
+                  <span className="text-white font-medium">High</span>
+                </div>
+              </div>
+              
+              <div className="pt-2 border-t border-white/10">
+                <Button 
+                  asChild 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full text-white border-white/30 hover:bg-white/10 backdrop-blur-sm"
+                >
+                  <Link href="/products">
+                    <span className="relative z-10">View Details</span>
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
           </motion.div>
         </motion.div>
       </AnimatePresence>
