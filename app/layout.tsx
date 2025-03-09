@@ -5,6 +5,8 @@ import ClientProviders from "@/components/ClientProviders";
 import Navbar from "@/components/navigation/Navbar";
 import Footer from "@/components/navigation/Footer";
 import ConstructionBanner from "@/components/ui/ConstructionBanner";
+import { RouterProgressBar } from "@/components/ui/RouterProgressBar";
+import { PageTransition } from "@/components/ui/PageTransition";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -48,11 +50,16 @@ export default function RootLayout({
         className={`${inter.variable} ${robotoMono.variable} antialiased`}
       >
         <ClientProviders>
+          {/* Progress bar for navigation */}
+          <RouterProgressBar />
+          
           <Navbar />
           {/* Construction banner */}
           <ConstructionBanner />
           <main className="min-h-screen">
-            {children}
+            <PageTransition>
+              {children}
+            </PageTransition>
           </main>
           <Footer />
         </ClientProviders>
