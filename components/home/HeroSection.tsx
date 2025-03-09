@@ -5,8 +5,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import HeroCarousel from "./HeroCarousel";
+import { useClientTranslations } from "@/lib/i18n";
+import translations from "@/locale/translations";
 
 export default function HeroSection() {
+  const { t } = useClientTranslations(translations);
   const [scrollY, setScrollY] = useState(0);
   const [isMobile, setIsMobile] = useState(true);
 
@@ -98,17 +101,15 @@ export default function HeroSection() {
               className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
               variants={itemVariants}
             >
-              <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">Premium</span>{" "}
-              <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">Cannabis</span>{" "}
-              <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">Seeds</span>
-              <span className="block mt-2 bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">for Every Grower</span>
+              <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">{t('premiumCannabisSeeds')}</span>
+              <span className="block mt-2 bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">{t('forEveryGrower')}</span>
             </motion.h1>
             
             <motion.p 
               className="text-xl md:text-2xl text-gray-200 mb-8"
               variants={itemVariants}
             >
-              Discover our collection of high-quality cannabis seeds, carefully selected for potency, yield, and reliability.
+              {t('discoverCollection')}
             </motion.p>
             
             <motion.div 
@@ -121,7 +122,7 @@ export default function HeroSection() {
                 className="bg-green-600 hover:bg-green-700 relative overflow-hidden group"
               >
                 <Link href="/products">
-                  <span className="relative z-10">Shop Now</span>
+                  <span className="relative z-10">{t('shopNow')}</span>
                   <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500"></span>
                 </Link>
@@ -134,7 +135,7 @@ export default function HeroSection() {
                 className="text-white border-white/30 hover:bg-white/10 backdrop-blur-sm relative overflow-hidden group"
               >
                 <Link href="#categories">
-                  <span className="relative z-10">Explore Varieties</span>
+                  <span className="relative z-10">{t('exploreVarieties')}</span>
                   <span className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                   <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-white/40 to-white/10"></span>
                 </Link>
@@ -150,7 +151,7 @@ export default function HeroSection() {
             transition={{ delay: 1.5, duration: 0.8 }}
           >
             <div className="flex flex-col items-center">
-              <span className="text-white/80 text-sm mb-2">Scroll to explore</span>
+              <span className="text-white/80 text-sm mb-2">{t('scrollToExplore')}</span>
               <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center p-1">
                 <motion.div 
                   className="w-1 h-2 bg-white/80 rounded-full"

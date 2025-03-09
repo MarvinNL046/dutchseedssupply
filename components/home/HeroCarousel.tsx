@@ -5,44 +5,57 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useClientTranslations } from '@/lib/i18n';
+import translations from '@/locale/translations';
 
-// Define the slide data
-const slides = [
+// Define the slide data structure
+interface Slide {
+  id: number;
+  titleKey: string;
+  subtitleKey: string;
+  descriptionKey: string;
+  bgClass: string;
+  accentClass: string;
+}
+
+// Define the slides with translation keys
+const slideData: Slide[] = [
   {
     id: 1,
-    title: 'Premium Cannabis Seeds',
-    subtitle: 'for Every Grower',
-    description: 'Discover our collection of high-quality cannabis seeds, carefully selected for potency, yield, and reliability.',
+    titleKey: 'premiumCannabisSeeds',
+    subtitleKey: 'forEveryGrower',
+    descriptionKey: 'discoverCollection',
     bgClass: 'bg-gradient-to-br from-green-900 via-emerald-800 to-green-950',
     accentClass: 'from-green-400 to-emerald-600',
   },
   {
     id: 2,
-    title: 'Autoflowering Varieties',
-    subtitle: 'Easy to Grow',
-    description: 'Perfect for beginners, our autoflowering seeds provide hassle-free growing with exceptional results every time.',
+    titleKey: 'autofloweringVarieties',
+    subtitleKey: 'easyToGrow',
+    descriptionKey: 'autofloweringDescription',
     bgClass: 'bg-gradient-to-br from-amber-900 via-yellow-800 to-amber-950',
     accentClass: 'from-amber-400 to-yellow-600',
   },
   {
     id: 3,
-    title: 'Feminized Seeds',
-    subtitle: 'Maximum Yield',
-    description: 'Our feminized seeds ensure 99% female plants, maximizing your harvest and eliminating wasted resources.',
+    titleKey: 'feminizedSeeds',
+    subtitleKey: 'maximumYield',
+    descriptionKey: 'feminizedDescription',
     bgClass: 'bg-gradient-to-br from-purple-900 via-fuchsia-800 to-purple-950',
     accentClass: 'from-fuchsia-400 to-purple-600',
   },
   {
     id: 4,
-    title: 'CBD Strains',
-    subtitle: 'Therapeutic Benefits',
-    description: 'Explore our selection of CBD-rich strains, perfect for medicinal users seeking therapeutic effects without the high.',
+    titleKey: 'cbdStrains',
+    subtitleKey: 'therapeuticBenefits',
+    descriptionKey: 'cbdDescription',
     bgClass: 'bg-gradient-to-br from-blue-900 via-cyan-800 to-blue-950',
     accentClass: 'from-cyan-400 to-blue-600',
   }
 ];
 
 export default function HeroCarousel() {
+  const { t } = useClientTranslations(translations);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
@@ -53,7 +66,7 @@ export default function HeroCarousel() {
     
     const timer = setTimeout(() => {
       setDirection(1);
-      setCurrentSlide((prev) => (prev + 1) % slides.length);
+      setCurrentSlide((prev) => (prev + 1) % slideData.length);
     }, 5000);
     
     return () => clearTimeout(timer);
@@ -71,12 +84,12 @@ export default function HeroCarousel() {
   // Navigation handlers
   const handlePrevSlide = useCallback(() => {
     setDirection(-1);
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setCurrentSlide((prev) => (prev - 1 + slideData.length) % slideData.length);
   }, []);
 
   const handleNextSlide = useCallback(() => {
     setDirection(1);
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setCurrentSlide((prev) => (prev + 1) % slideData.length);
   }, []);
 
   // Animation variants - crossfade effect with softer transitions
@@ -152,7 +165,7 @@ export default function HeroCarousel() {
           className="absolute inset-0"
         >
           {/* Background gradient */}
-          <div className={`absolute inset-0 ${slides[currentSlide].bgClass}`}></div>
+          <div className={`absolute inset-0 ${slideData[currentSlide].bgClass}`}></div>
           
           {/* Secondary animated gradient for depth */}
           <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/60 to-black/40 opacity-80"></div>
@@ -221,9 +234,11 @@ export default function HeroCarousel() {
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight"
                 variants={itemVariants}
               >
-                <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">{slides[currentSlide].title}</span>
-                <span className={`block mt-2 bg-gradient-to-r ${slides[currentSlide].accentClass} bg-clip-text text-transparent`}>
-                  {slides[currentSlide].subtitle}
+                <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">
+                  {t(slideData[currentSlide].titleKey)}
+                </span>
+                <span className={`block mt-2 bg-gradient-to-r ${slideData[currentSlide].accentClass} bg-clip-text text-transparent`}>
+                  {t(slideData[currentSlide].subtitleKey)}
                 </span>
               </motion.h1>
               
@@ -231,7 +246,7 @@ export default function HeroCarousel() {
                 className="text-xl md:text-2xl text-gray-200 mb-8"
                 variants={itemVariants}
               >
-                {slides[currentSlide].description}
+                {t(slideData[currentSlide].descriptionKey)}
               </motion.p>
               
               <motion.div 
@@ -244,7 +259,7 @@ export default function HeroCarousel() {
                   className="bg-green-600 hover:bg-green-700 relative overflow-hidden group"
                 >
                   <Link href="/products">
-                    <span className="relative z-10">Shop Now</span>
+                    <span className="relative z-10">{t('shopNow')}</span>
                     <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500"></span>
                   </Link>
@@ -257,7 +272,7 @@ export default function HeroCarousel() {
                   className="text-white border-white/30 hover:bg-white/10 backdrop-blur-sm relative overflow-hidden group"
                 >
                   <Link href="#categories">
-                    <span className="relative z-10">Explore Varieties</span>
+                    <span className="relative z-10">{t('exploreVarieties')}</span>
                     <span className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-white/40 to-white/10"></span>
                   </Link>
@@ -271,34 +286,34 @@ export default function HeroCarousel() {
               className="hidden lg:block w-80 h-auto backdrop-blur-md bg-black/15 p-6 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] self-center transform translate-y-4"
             >
               <div className="relative mb-4 overflow-hidden rounded-lg h-40 bg-black/20">
-                <div className={`absolute inset-0 ${slides[currentSlide].bgClass} opacity-50`}></div>
+                <div className={`absolute inset-0 ${slideData[currentSlide].bgClass} opacity-50`}></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white/70 text-sm">Strain Image</span>
+                  <span className="text-white/70 text-sm">{t('strainImage')}</span>
                 </div>
                 <div className="absolute top-2 right-2 bg-white/20 backdrop-blur-md px-2 py-1 rounded-full text-xs text-white">
-                  Featured
+                  {t('featured')}
                 </div>
               </div>
               
               <h3 className="text-xl font-bold text-white mb-2">
-                Featured Strain
+                {t('featuredStrain')}
               </h3>
               
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between">
-                  <span className="text-white/70">THC:</span>
+                  <span className="text-white/70">{t('thc')}</span>
                   <span className="text-white font-medium">18-24%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-white/70">CBD:</span>
+                  <span className="text-white/70">{t('cbd')}</span>
                   <span className="text-white font-medium">0.1-1%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-white/70">Flowering:</span>
+                  <span className="text-white/70">{t('flowering')}</span>
                   <span className="text-white font-medium">8-9 weeks</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-white/70">Yield:</span>
+                  <span className="text-white/70">{t('yield')}</span>
                   <span className="text-white font-medium">High</span>
                 </div>
               </div>
@@ -311,7 +326,7 @@ export default function HeroCarousel() {
                   className="w-full text-white border-white/30 hover:bg-white/10 backdrop-blur-sm"
                 >
                   <Link href="/products">
-                    <span className="relative z-10">View Details</span>
+                    <span className="relative z-10">{t('viewDetails')}</span>
                   </Link>
                 </Button>
               </div>
@@ -344,7 +359,7 @@ export default function HeroCarousel() {
 
       {/* Dots indicator */}
       <div className="absolute z-20 bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
-        {slides.map((_, index) => (
+        {slideData.map((_, index) => (
           <button
             key={index}
             className={`w-3 h-3 rounded-full transition-all duration-300 ${
