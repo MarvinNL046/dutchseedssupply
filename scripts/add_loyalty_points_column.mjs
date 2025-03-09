@@ -1,69 +1,139 @@
-// This script adds the loyalty_points column to the users table in the production database
-// Run with: node scripts/add_loyalty_points_column.mjs
-
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
-// Load environment variables from .env.local
+// Load environment variables
 dotenv.config({ path: '.env.local' });
 
-// Get current file directory (ES modules don't have __dirname)
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Get Supabase credentials from environment variables
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-if (!supabaseUrl || !supabaseServiceKey) {
-  console.error('Missing Supabase credentials. Make sure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set in .env.local');
+// Validate environment variables
+if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  console.error('Missing required environment variables:');
+  console.error('NEXT_PUBLIC_SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? '✓' : '✗');
+  console.error('SUPABASE_SERVICE_ROLE_KEY:', process.env.SUPABASE_SERVICE_ROLE_KEY ? '✓' : '✗');
   process.exit(1);
 }
 
-// Create Supabase client with service role key for admin access
-const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Create Supabase client with service role key
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
 async function addLoyaltyPointsColumn() {
+  console.log('Adding loyalty_points column to profiles table...');
+
   try {
-    console.log('Adding loyalty_points column to users table...');
+    // Add loyalty_points column to profiles table if it doesn't exist
+    console.log('Adding loyalty_points column if it doesn\'t exist...');
     
-    // Read the SQL file
-    const sqlFilePath = path.join(__dirname, '..', 'db', 'add_loyalty_points_column.sql');
-    const sqlContent = fs.readFileSync(sqlFilePath, 'utf8');
-    
-    // Execute the SQL
-    const { data, error } = await supabase.rpc('execute_sql', { sql_query: sqlContent });
-    
-    if (error) {
-      console.error('Error adding loyalty_points column:', error);
-      process.exit(1);
-    }
-    
-    console.log('Result:', data);
-    console.log('loyalty_points column added successfully (or already exists)!');
-    
-    // Check if the column exists
-    const { data: columns, error: columnsError } = await supabase.rpc('execute_sql', { 
+    const { error: addColumnError } = await supabase.rpc('execute_sql', {
       sql_query: `
-        SELECT column_name, data_type, column_default
-        FROM information_schema.columns
-        WHERE table_schema = 'public'
-        AND table_name = 'users'
-        AND column_name = 'loyalty_points';
+        DO $$
+        BEGIN
+          IF NOT EXISTS (
+            SELECT FROM information_schema.columns 
+            WHERE table_schema = 'public' 
+            AND table_name = 'profiles' 
+            AND column_name = 'loyalty_points'
+          ) THEN
+            ALTER TABLE public.profiles
+            ADD COLUMN loyalty_points INTEGER DEFAULT 0;
+          END IF;
+        END
+        $$;
       `
     });
     
-    if (columnsError) {
-      console.error('Error checking column:', columnsError);
-    } else {
-      console.log('Column verification:', columns);
+    if (addColumnError) {
+      console.error('Error adding loyalty_points column:', addColumnError);
+      return;
     }
+    
+    console.log('loyalty_points column added successfully (if it didn\'t exist)!');
+
+    // Update the handle_new_user function to include loyalty_points
+    console.log('Updating handle_new_user function to include loyalty_points...');
+    
+    const { error: updateFunctionError } = await supabase.rpc('execute_sql', {
+      sql_query: `
+        CREATE OR REPLACE FUNCTION public.handle_new_user()
+        RETURNS TRIGGER AS $$
+        BEGIN
+          INSERT INTO public.profiles (id, email, role, loyalty_points)
+          VALUES (new.id, new.email, 'user', 0);
+          RETURN new;
+        END;
+        $$ LANGUAGE plpgsql SECURITY DEFINER;
+      `
+    });
+    
+    if (updateFunctionError) {
+      console.error('Error updating handle_new_user function:', updateFunctionError);
+      return;
+    }
+    
+    console.log('handle_new_user function updated successfully!');
+
+    // Check if the trigger exists
+    console.log('Checking if the trigger exists...');
+    
+    const { data: triggerExists, error: triggerExistsError } = await supabase.rpc('execute_sql', {
+      sql_query: `
+        SELECT EXISTS (
+          SELECT FROM pg_trigger
+          WHERE tgname = 'on_auth_user_created'
+        ) AS trigger_exists;
+      `
+    });
+    
+    if (triggerExistsError) {
+      console.error('Error checking if trigger exists:', triggerExistsError);
+      return;
+    }
+    
+    console.log('Trigger exists check result:', triggerExists);
+
+    // Drop existing trigger if it exists
+    console.log('Dropping existing trigger if it exists...');
+    
+    const { error: dropTriggerError } = await supabase.rpc('execute_sql', {
+      sql_query: `
+        DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+      `
+    });
+    
+    if (dropTriggerError) {
+      console.error('Error dropping existing trigger:', dropTriggerError);
+      return;
+    }
+    
+    console.log('Existing trigger dropped successfully (if it existed).');
+
+    // Create new trigger
+    console.log('Creating new trigger...');
+    
+    const { error: createTriggerError } = await supabase.rpc('execute_sql', {
+      sql_query: `
+        CREATE TRIGGER on_auth_user_created
+          AFTER INSERT ON auth.users
+          FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+      `
+    });
+    
+    if (createTriggerError) {
+      console.error('Error creating trigger:', createTriggerError);
+      return;
+    }
+    
+    console.log('Trigger created successfully!');
+
+    // Update the register API route to handle the loyalty_points column
+    console.log('Updating the register API route...');
+    
+    console.log('Loyalty points column added and trigger updated successfully!');
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Unexpected error:', error);
   }
 }
 
+// Run the function
 addLoyaltyPointsColumn();

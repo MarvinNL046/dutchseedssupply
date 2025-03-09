@@ -15,7 +15,37 @@ export async function updateSession(request: NextRequest) {
       {
         cookies: {
           get(name: string) {
-            return request.cookies.get(name)?.value
+            try {
+              const cookie = request.cookies.get(name)?.value
+              
+              // If no cookie, return undefined
+              if (!cookie) {
+                return undefined;
+              }
+              
+              // Special handling for base64 cookies to prevent JSON parsing
+              if (cookie.startsWith('base64-')) {
+                return cookie;
+              }
+              
+              // For JSON cookies, only return if they're valid JSON
+              if (cookie.startsWith('{')) {
+                try {
+                  // Test if it's valid JSON
+                  JSON.parse(cookie);
+                  return cookie;
+                } catch (_) {
+                  console.warn(`Invalid JSON cookie for ${name}, returning raw value`);
+                  return cookie;
+                }
+              }
+              
+              // For all other cookies, return as is
+              return cookie;
+            } catch (error) {
+              console.error(`Error getting cookie ${name}:`, error);
+              return undefined;
+            }
           },
           set(name: string, value: string, options: CookieOptions) {
             request.cookies.set({ name, value, ...options })
@@ -33,7 +63,6 @@ export async function updateSession(request: NextRequest) {
                 headers: request.headers
               }
             })
-            // Gebruik options bij het verwijderen van cookies
             response.cookies.set({
               name,
               value: '',

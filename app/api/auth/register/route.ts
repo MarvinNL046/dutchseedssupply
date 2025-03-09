@@ -33,22 +33,42 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
     
-    // Manually insert the user into the public.users table
+    // Manually create a profile entry to handle the case where the trigger might fail
     if (data.user) {
-      const { error: insertError } = await supabase
-        .from('users')
-        .insert([
-          { 
-            id: data.user.id, 
-            email: data.user.email, 
+      try {
+        // First try with loyalty_points
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .upsert({
+            id: data.user.id,
+            email: data.user.email || '',
             role: 'user',
             loyalty_points: 0
+          });
+        
+        if (profileError) {
+          // If there's an error with loyalty_points, it might be because the column doesn't exist
+          if (profileError.message.includes('loyalty_points')) {
+            console.log('Trying to create profile without loyalty_points column');
+            
+            // Try without loyalty_points
+            const { error: profileError2 } = await supabase
+              .from('profiles')
+              .upsert({
+                id: data.user.id,
+                email: data.user.email || '',
+                role: 'user'
+              });
+            
+            if (profileError2) {
+              console.error('Error creating profile without loyalty_points:', profileError2);
+            }
+          } else {
+            console.error('Error creating profile:', profileError);
           }
-        ]);
-      
-      if (insertError) {
-        console.error('Error inserting user into public.users table:', insertError);
-        // Continue anyway, as the user was created in auth.users
+        }
+      } catch (profileError) {
+        console.error('Error creating profile:', profileError);
       }
     }
     

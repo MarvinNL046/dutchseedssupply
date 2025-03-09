@@ -12,7 +12,7 @@ export default async function AdminPaymentsPage() {
   
   // Check if user is admin
   const { data: user } = await supabase
-    .from('users')
+    .from('profiles')
     .select('role')
     .eq('id', session.user.id)
     .single();

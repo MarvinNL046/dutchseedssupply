@@ -21,13 +21,17 @@ export async function login(formData: FormData) {
   // Check if user is admin
   try {
     const { data: user, error: userError } = await supabase
-      .from('users')
+      .from('profiles')
       .select('role')
       .eq('id', data.user.id)
       .single()
 
-    if (!userError && user?.role === 'admin') {
-      return redirect('/admin')
+    if (!userError) {
+      if (user?.role === 'admin') {
+        return redirect('/admin')
+      } else if (user?.role === 'user') {
+        return redirect('/dashboard/')
+      }
     }
 
     // Fallback for known admin email
@@ -43,7 +47,8 @@ export async function login(formData: FormData) {
     }
   }
 
-  return redirect('/')
+  // Default fallback
+  return redirect('/dashboard/')
 }
 
 export async function signup(formData: FormData) {
@@ -69,10 +74,10 @@ export async function signup(formData: FormData) {
       return redirect('/register?error=' + encodeURIComponent(error.message))
     }
 
-    // Manually insert the user into the public.users table
+    // Manually insert the user into the public.profiles table
     if (data.user) {
       const { error: insertError } = await supabase
-        .from('users')
+        .from('profiles')
         .insert([
           { 
             id: data.user.id, 
@@ -83,12 +88,12 @@ export async function signup(formData: FormData) {
         ])
 
       if (insertError) {
-        console.error('Error inserting user into public.users table:', insertError)
+        console.error('Error inserting user into public.profiles table:', insertError)
         // Continue anyway, as the user was created in auth.users
       }
     }
 
-    return redirect('/register?message=Controleer je e-mail om je account te bevestigen. Je wordt doorgestuurd naar de welkomstpagina na bevestiging.')
+    return redirect('/dashboard/?message=Account aangemaakt. Je kunt nu gebruik maken van je dashboard.')
   } catch (err) {
     console.error('Unexpected error during signup:', err)
     return redirect('/register?error=Er is een onverwachte fout opgetreden bij het registreren.')

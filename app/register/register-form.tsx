@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { useToast } from '@/components/ui/toast';
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ export default function RegisterForm() {
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { addToast } = useToast();
   
   // Check for error message in URL
   const urlError = searchParams.get('error');
@@ -22,13 +24,17 @@ export default function RegisterForm() {
     
     // Validate passwords match
     if (password !== confirmPassword) {
-      setError('Wachtwoorden komen niet overeen.');
+      const errorMessage = 'Wachtwoorden komen niet overeen.';
+      setError(errorMessage);
+      addToast(errorMessage, 'error');
       return;
     }
     
     // Validate password strength
     if (password.length < 6) {
-      setError('Wachtwoord moet minimaal 6 tekens bevatten.');
+      const errorMessage = 'Wachtwoord moet minimaal 6 tekens bevatten.';
+      setError(errorMessage);
+      addToast(errorMessage, 'error');
       return;
     }
     
@@ -36,7 +42,7 @@ export default function RegisterForm() {
     
     try {
       // Use the API route for registration
-      const response = await fetch('/api/auth/register', {
+      const response = await fetch('/api/auth/register/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +54,9 @@ export default function RegisterForm() {
 
       if (!response.ok) {
         console.error('Registration error:', data.error);
-        setError(data.error || 'Er is een fout opgetreden bij het registreren.');
+        const errorMessage = data.error || 'Er is een fout opgetreden bij het registreren.';
+        setError(errorMessage);
+        addToast(errorMessage, 'error');
         setLoading(false);
         return;
       }
@@ -56,10 +64,16 @@ export default function RegisterForm() {
       console.log('Registration successful:', data.message);
       
       // Show success message
-      router.push('/register?message=' + encodeURIComponent(data.message));
+      const successMessage = data.message || 'Je bent succesvol geregistreerd.';
+      addToast(successMessage, 'success');
+      
+      // Redirect to login page after successful registration
+      router.push('/login');
     } catch (err) {
       console.error('Registration error:', err);
-      setError('Er is een fout opgetreden bij het registreren.');
+      const errorMessage = 'Er is een fout opgetreden bij het registreren.';
+      setError(errorMessage);
+      addToast(errorMessage, 'error');
     } finally {
       setLoading(false);
     }

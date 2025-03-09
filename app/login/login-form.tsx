@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { useToast } from '@/components/ui/toast';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const { addToast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ export default function LoginForm() {
       console.log('Login attempt with email:', email);
       
       // Use the API route instead of direct Supabase client
-      const response = await fetch('/api/auth/login', {
+      const response = await fetch('/api/auth/login/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -33,26 +35,36 @@ export default function LoginForm() {
 
       if (!response.ok) {
         console.error('Login error:', data.error);
-        setError(data.error || 'Er is een fout opgetreden bij het inloggen.');
+        const errorMessage = data.error || 'Er is een fout opgetreden bij het inloggen.';
+        setError(errorMessage);
+        addToast(errorMessage, 'error');
         setLoading(false);
         return;
       }
+      
+      // Show success toast
+      addToast('Je bent succesvol ingelogd', 'success');
 
       console.log('Login successful, user:', data.user);
       console.log('Is admin:', data.isAdmin);
       console.log('Redirecting to:', data.redirectTo);
       
       // Let's check if we have a session cookie
-      console.log('Cookies:', document.cookie);
+      console.log('Cookies before redirect:', document.cookie);
       
       // Add a delay before redirecting to ensure cookies are set
       setTimeout(() => {
+        console.log('Cookies after delay:', document.cookie);
+        
         // Use window.location instead of router.push for a full page reload
+        console.log('Redirecting to:', data.redirectTo);
         window.location.href = data.redirectTo;
-      }, 500);
+      }, 1000); // Increased delay to 1 second
     } catch (err) {
       console.error('Login error:', err);
-      setError('Er is een fout opgetreden bij het inloggen.');
+      const errorMessage = 'Er is een fout opgetreden bij het inloggen.';
+      setError(errorMessage);
+      addToast(errorMessage, 'error');
       setLoading(false);
     }
   };

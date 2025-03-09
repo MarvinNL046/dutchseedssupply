@@ -1,13 +1,15 @@
-import { NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+import { domainMiddleware } from './utils/domain-middleware';
 
-// Minimale middleware functie die niets doet behalve de request doorsturen
-export function middleware() {
-  // Gewoon de request doorsturen zonder wijzigingen
-  return NextResponse.next();
+// Middleware functie die zowel de taal als de Supabase sessie afhandelt
+export async function middleware(request: NextRequest) {
+  return await domainMiddleware(request);
 }
 
 // Configureer welke paden de middleware moet afhandelen
-// We gebruiken een patroon dat geen enkele route matcht
 export const config = {
-  matcher: ['/api/___dummy___route___that___does___not___exist___'],
+  matcher: [
+    // Exclude statische bestanden, API routes, en Next.js interne routes
+    '/((?!_next/static|_next/image|favicon.ico|images|api/webhook).*)',
+  ],
 };

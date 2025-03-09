@@ -11,7 +11,7 @@ export async function getTranslations(translations: Translations) {
   // We'll use a dynamic import to avoid the "next/headers" error in client components
   const { cookies } = await import('next/headers');
   const cookieStore = await cookies();
-  const locale = cookieStore.get('NEXT_LOCALE')?.value || 'en';
+  const locale = cookieStore.get('NEXT_LOCALE')?.value || 'nl';
   
   return {
     t: createTranslationFunction(translations, locale),
@@ -24,8 +24,8 @@ export function useClientTranslations(translations: Translations) {
   // In a client component, we should prioritize the cookie value for consistency with SSR
   // This helps prevent hydration mismatches
   const locale = typeof window !== 'undefined' 
-    ? getCookieLocale() || localStorage.getItem('NEXT_LOCALE') || 'en'
-    : 'en';
+    ? getCookieLocale() || localStorage.getItem('NEXT_LOCALE') || 'nl'
+    : 'nl';
   
   return {
     t: createTranslationFunction(translations, locale),
@@ -50,8 +50,8 @@ function getCookieLocale(): string | null {
 // Shared translation function logic
 function createTranslationFunction(translations: Translations, locale: string) {
   return (key: string, params?: Record<string, string>) => {
-    // Get the translation for the current locale or fallback to English
-    const translation = translations[locale]?.[key] || translations['en']?.[key] || key;
+    // Get the translation for the current locale or fallback to Dutch
+    const translation = translations[locale]?.[key] || translations['nl']?.[key] || key;
     
     // If the translation is a string and we have params, replace placeholders
     if (typeof translation === 'string' && params) {

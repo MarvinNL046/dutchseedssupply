@@ -37,7 +37,7 @@ export default function AdminPage() {
         // Only try to check database role if we're not the known admin
         try {
           const { data: userData, error: userError } = await supabase
-            .from('users')
+            .from('profiles')
             .select('role')
             .eq('id', session.user.id)
             .single();

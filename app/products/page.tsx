@@ -4,24 +4,33 @@ import translations from '@/locale/translations';
 
 // Define types for our data
 type Product = {
-  id: number;
+  id: string;
   name: string;
   description: string;
-};
-
-type ProductVariant = {
-  product_id: number;
-  domain_id: string;
   price: number;
-  stock: number;
-  products: Product;
+  sale_price?: number;
+  stock_quantity: number;
+  stock_status: string;
+  featured: boolean;
+  images: string[];
+  slug: string;
+  sku: string;
+  thc_content?: number;
+  cbd_content?: number;
+  flowering_time?: number;
+  height?: string;
+  yield?: string;
+  categories?: Array<{
+    id: string;
+    name: string;
+    slug: string;
+  }>;
 };
 
 async function getProducts() {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/products`, {
-      cache: 'no-store',
-      next: { revalidate: 60 } // Revalidate every 60 seconds
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/products/`, {
+      cache: 'no-store'
     });
     
     if (!response.ok) {
@@ -41,9 +50,9 @@ export default async function ProductsPage() {
   const { t } = await getTranslations(translations);
   
   // Fetch products using the API route
-  const variants = await getProducts();
+  const products = await getProducts();
   
-  if (!variants || variants.length === 0) {
+  if (!products || products.length === 0) {
     console.error('No products found or error fetching products');
   }
   
@@ -51,10 +60,10 @@ export default async function ProductsPage() {
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">{t('products') || 'Producten'}</h1>
       
-      {variants && variants.length > 0 ? (
+      {products && products.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {variants.map((variant: ProductVariant) => (
-            <ProductCard key={variant.product_id} variant={variant} />
+          {products.map((product: Product) => (
+            <ProductCard key={product.id} product={product} />
           ))}
         </div>
       ) : (
@@ -68,8 +77,10 @@ export default async function ProductsPage() {
   );
 }
 
-function ProductCard({ variant }: { variant: ProductVariant }) {
-  const { products: product, price, stock } = variant;
+function ProductCard({ product }: { product: Product }) {
+  // Use sale_price if available, otherwise use regular price
+  const displayPrice = product.sale_price || product.price;
+  const isOnSale = product.sale_price && product.sale_price < product.price;
   
   return (
     <Link href={`/products/${product.id}`} className="block">
@@ -79,16 +90,50 @@ function ProductCard({ variant }: { variant: ProductVariant }) {
           <div className="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400">
             Product afbeelding
           </div>
+          
+          {/* Featured badge */}
+          {product.featured && (
+            <div className="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded">
+              Featured
+            </div>
+          )}
+          
+          {/* Sale badge */}
+          {isOnSale && (
+            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+              Sale
+            </div>
+          )}
         </div>
         <div className="p-4">
           <h2 className="text-xl font-semibold mb-2">{product.name}</h2>
           <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">{product.description}</p>
           <div className="flex justify-between items-center">
-            <span className="text-lg font-bold">€{price.toFixed(2)}</span>
-            <span className={`text-sm ${stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {stock > 0 ? `${stock} op voorraad` : 'Niet op voorraad'}
+            <div>
+              {isOnSale ? (
+                <div className="flex items-center">
+                  <span className="text-lg font-bold text-red-600">€{displayPrice.toFixed(2)}</span>
+                  <span className="text-sm text-gray-500 line-through ml-2">€{product.price.toFixed(2)}</span>
+                </div>
+              ) : (
+                <span className="text-lg font-bold">€{displayPrice.toFixed(2)}</span>
+              )}
+            </div>
+            <span className={`text-sm ${product.stock_quantity > 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {product.stock_quantity > 0 ? `${product.stock_quantity} op voorraad` : 'Niet op voorraad'}
             </span>
           </div>
+          
+          {/* Categories */}
+          {product.categories && product.categories.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-1">
+              {product.categories.map((category, index) => (
+                <span key={index} className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                  {category.name}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Link>

@@ -23,7 +23,7 @@ export async function GET() {
       
       // Check admin role with admin client
       const { data: user, error: userError } = await adminSupabase
-        .from('users')
+        .from('profiles')
         .select('role')
         .eq('id', session.user.id)
         .single();
@@ -31,8 +31,9 @@ export async function GET() {
       if (userError) {
         console.log('Error fetching user role in admin check API:', userError);
         
-        // If the user is marvinsmit1988@gmail.com, treat as admin
-        if (session.user.email === 'marvinsmit1988@gmail.com') {
+        // If the user is marvinsmit1988@gmail.com or admin@dutchseedsupply.com, treat as admin
+        if (session.user.email === 'marvinsmit1988@gmail.com' || 
+            session.user.email === 'admin@dutchseedsupply.com') {
           console.log('Using email check for known admin in admin check API');
           return NextResponse.json({ 
             isAdmin: true, 
@@ -62,7 +63,8 @@ export async function GET() {
       console.error('Error checking user role in admin check API:', innerError);
       
       // Fallback for known admin email
-      if (session.user.email === 'marvinsmit1988@gmail.com') {
+      if (session.user.email === 'marvinsmit1988@gmail.com' || 
+          session.user.email === 'admin@dutchseedsupply.com') {
         console.log('Using email fallback for known admin after error in admin check API');
         return NextResponse.json({ 
           isAdmin: true, 

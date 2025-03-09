@@ -4,7 +4,26 @@
  */
 module.exports = {
   i18n: {
-    locales: ['en', 'nl', 'de', 'fr'],
-    defaultLocale: 'en',
+    locales: ['nl', 'en', 'de', 'fr'],
+    defaultLocale: 'nl',
+    // Mapping van TLD naar taalcode
+    domains: [
+      {
+        domain: 'dutchseedsupply.nl',
+        defaultLocale: 'nl',
+      },
+      {
+        domain: 'dutchseedsupply.com',
+        defaultLocale: 'en',
+      },
+      {
+        domain: 'dutchseedsupply.de',
+        defaultLocale: 'de',
+      },
+      {
+        domain: 'dutchseedsupply.fr',
+        defaultLocale: 'fr',
+      },
+    ],
   },
 };

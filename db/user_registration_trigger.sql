@@ -1,11 +1,11 @@
--- This script sets up a trigger to automatically add new users to the public.users table
+-- This script sets up a trigger to automatically add new users to the public.profiles table
 -- Run this in the Supabase SQL Editor
 
 -- Function to handle new user creation
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.users (id, email, role, loyalty_points)
+  INSERT INTO public.profiles (id, email, role, loyalty_points)
   VALUES (new.id, new.email, 'user', 0);
   RETURN new;
 END;

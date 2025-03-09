@@ -20,12 +20,8 @@ const nextConfig = {
     domains: ['dutchseedsupply.com', 'www.dutchseedsupply.nl', 'dutchseedsupply.de', 'www.dutchseedsupply.fr'],
   },
   
-  // Configuratie voor i18n
-  i18n: {
-    locales: ['nl', 'en', 'de', 'fr'],
-    defaultLocale: 'nl',
-    localeDetection: false,
-  },
+  // Verwijder i18n configuratie om subdirectories te voorkomen
+  // We gebruiken nu domein-gebaseerde taaldetectie via middleware
 };
 
 module.exports = nextConfig;
