@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate-sitemaps": "node scripts/generate-sitemaps.mjs",
+    "generate-product-sitemaps": "node scripts/generate-product-sitemaps.mjs",
+    "prebuild": "npm run generate-sitemaps && npm run generate-product-sitemaps"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.3",
