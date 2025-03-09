@@ -204,7 +204,7 @@ export default function HeroCarousel() {
           
           {/* Content with glassmorphism effect - main and secondary cards */}
           <motion.div 
-            className="relative z-10 flex flex-col md:flex-row items-start justify-center h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-6 lg:gap-10"
+            className="relative z-10 flex flex-col md:flex-row items-center justify-center h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-6 lg:gap-8"
             variants={contentVariants}
             initial="hidden"
             animate="visible"
@@ -262,7 +262,7 @@ export default function HeroCarousel() {
             {/* Secondary featured card - only visible on desktop */}
             <motion.div 
               variants={itemVariants}
-              className="hidden lg:block w-80 h-auto backdrop-blur-md bg-black/15 p-6 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] self-center"
+              className="hidden lg:block w-80 h-auto backdrop-blur-md bg-black/15 p-6 rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.37)] self-center transform translate-y-4"
             >
               <div className="relative mb-4 overflow-hidden rounded-lg h-40 bg-black/20">
                 <div className={`absolute inset-0 ${slides[currentSlide].bgClass} opacity-50`}></div>
