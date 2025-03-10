@@ -8,6 +8,8 @@ export async function GET(
   try {
     const productId = params.id;
     
+    console.log(`API: Fetching product with ID: ${productId}`);
+    
     if (!productId) {
       return NextResponse.json({ 
         error: 'Product ID is required' 
@@ -18,45 +20,73 @@ export async function GET(
     const locale = await getLocale();
     const domainId = await getDomainId();
     
+    console.log(`API: Using locale=${locale}, domainId=${domainId}`);
+    
     // Create Supabase client
     const supabase = await createServerSupabaseClient();
+    console.log(`API: Supabase client created successfully`);
     
-    // Fetch product details with translations, categories, and variants
-    const { data: product, error: productError } = await supabase
-      .from('products')
-      .select(`
-        *,
-        product_translations(*),
-        product_categories(
-          category_id,
-          categories(*)
-        ),
-        product_variants(*)
-      `)
-      .eq('id', productId)
-      .single();
+    console.log(`API: Executing Supabase query for product ID: ${productId}`);
     
-    if (productError) {
-      // Check if the error is because the tables don't exist yet
-      if (productError.code === '42P01') {
-        console.log('Products tables do not exist yet. This is normal if no products have been created.');
+    // Declare product variable in the outer scope
+    let product;
+    let productError;
+    
+    try {
+      // Fetch product details with translations, categories, and variants
+      const result = await supabase
+        .from('products')
+        .select(`
+          *,
+          product_translations(*),
+          product_categories(
+            category_id,
+            categories(*)
+          ),
+          product_variants(*)
+        `)
+        .eq('id', productId)
+        .single();
+      
+      product = result.data;
+      productError = result.error;
+      
+      console.log(`API: Query executed. Product found: ${!!product}, Error: ${!!productError}`);
+      
+      if (productError) {
+        // Check if the error is because the tables don't exist yet
+        if (productError.code === '42P01') {
+          console.log('Products tables do not exist yet. This is normal if no products have been created.');
+          return NextResponse.json({ 
+            error: 'Product not found',
+            details: 'The products database has not been set up yet.'
+          }, { status: 404 });
+        }
+        
+        console.error('Error fetching product:', productError);
+        console.error('Error code:', productError.code);
+        console.error('Error message:', productError.message);
+        console.error('Error details:', productError.details);
         return NextResponse.json({ 
-          error: 'Product not found',
-          details: 'The products database has not been set up yet.'
+          error: 'Error fetching product', 
+          details: productError.message 
+        }, { status: 500 });
+      }
+      
+      if (!product) {
+        console.log(`API: No product found with ID: ${productId}`);
+        return NextResponse.json({ 
+          error: 'Product not found' 
         }, { status: 404 });
       }
       
-      console.error('Error fetching product:', productError);
+      console.log(`API: Product found: ${product.name}`);
+    } catch (dbError) {
+      console.error('Unexpected error during database query:', dbError);
       return NextResponse.json({ 
-        error: 'Error fetching product', 
-        details: productError.message 
+        error: 'Database error', 
+        details: dbError instanceof Error ? dbError.message : 'Unknown database error' 
       }, { status: 500 });
-    }
-    
-    if (!product) {
-      return NextResponse.json({ 
-        error: 'Product not found' 
-      }, { status: 404 });
     }
     
     // Define interfaces for the product data structure
@@ -108,9 +138,18 @@ export async function GET(
     ) || [];
     
     // Find the variant for the current domain
-    const variant = product.product_variants?.find(
+    let variant = product.product_variants?.find(
       (v: ProductVariant) => v.domain_id === domainId
     );
+    
+    console.log(`Looking for variant with domainId=${domainId}`);
+    console.log(`Available variants:`, JSON.stringify(product.product_variants, null, 2));
+    
+    // If no variant found for the current domain, use any available variant as fallback
+    if (!variant && product.product_variants && product.product_variants.length > 0) {
+      console.log(`No variant found for domain ${domainId}, using fallback`);
+      variant = product.product_variants[0];
+    }
     
     // Format the product with translations and variant
     const formattedProduct = {

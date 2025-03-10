@@ -1,0 +1,9 @@
+# robots.txt for Dutch Seed Supply
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://www.dutchseedsupply.nl/sitemap.xml
+Sitemap: https://www.dutchseedsupply.com/sitemap.xml
+Sitemap: https://www.dutchseedsupply.de/sitemap.xml
+Sitemap: https://www.dutchseedsupply.fr/sitemap.xml

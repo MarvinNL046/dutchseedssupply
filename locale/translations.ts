@@ -52,6 +52,8 @@ const translations: Translations = {
     inStock: 'in stock',
     outOfStock: 'Out of stock',
     addToCart: 'Add to cart',
+    productNotAvailableInRegion: 'This product is not available in your region.',
+    usingFallbackVariant: 'Prices are shown from another region.',
     
     // Cart
     cart: 'Shopping Cart',
@@ -158,6 +160,8 @@ const translations: Translations = {
     inStock: 'op voorraad',
     outOfStock: 'Niet op voorraad',
     addToCart: 'In winkelwagen',
+    productNotAvailableInRegion: 'Dit product is niet beschikbaar in jouw regio.',
+    usingFallbackVariant: 'Prijzen worden getoond van een andere regio.',
     
     // Cart
     cart: 'Winkelwagen',
@@ -264,6 +268,8 @@ const translations: Translations = {
     inStock: 'auf Lager',
     outOfStock: 'Nicht auf Lager',
     addToCart: 'In den Warenkorb',
+    productNotAvailableInRegion: 'Dieses Produkt ist in Ihrer Region nicht verfügbar.',
+    usingFallbackVariant: 'Preise werden aus einer anderen Region angezeigt.',
     
     // Cart
     cart: 'Warenkorb',
@@ -370,6 +376,8 @@ const translations: Translations = {
     inStock: 'en stock',
     outOfStock: 'Rupture de stock',
     addToCart: 'Ajouter au panier',
+    productNotAvailableInRegion: 'Ce produit n\'est pas disponible dans votre région.',
+    usingFallbackVariant: 'Les prix affichés proviennent d\'une autre région.',
     
     // Cart
     cart: 'Panier',

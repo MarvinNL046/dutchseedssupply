@@ -1,16 +1,10 @@
 import { getTranslations } from '@/lib/i18n';
+import { getDomainId } from '@/lib/supabase';
 import translations from '@/locale/translations';
 import Link from 'next/link';
 import AddToCartButtonWrapper from '@/app/products/[id]/AddToCartButtonWrapper';
 
 // Define types for our data
-type Product = {
-  id: number;
-  name: string;
-  description: string;
-  category?: string;
-};
-
 type ProductVariant = {
   id: string;
   product_id: string;
@@ -22,6 +16,14 @@ type ProductVariant = {
   available: boolean;
 };
 
+type Product = {
+  id: number;
+  name: string;
+  description: string;
+  category?: string;
+  variant?: ProductVariant;
+};
+
 type RelatedProduct = {
   id: number;
   name: string;
@@ -29,23 +31,31 @@ type RelatedProduct = {
 
 type ProductData = {
   product: Product;
-  variant: ProductVariant | null;
   relatedProducts: RelatedProduct[];
 };
 
 // Function to fetch product data from API
 async function getProductData(id: string): Promise<ProductData | null> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/products/${id}`, {
+    // Use absolute URL with current host to ensure correct port
+    const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+    const host = typeof window !== 'undefined' ? window.location.host : 'localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || `${protocol}://${host}`;
+    
+    console.log(`Fetching product data from: ${baseUrl}/api/products/${id}`);
+    
+    const response = await fetch(`${baseUrl}/api/products/${id}`, {
       cache: 'no-store',
-      next: { revalidate: 60 } // Revalidate every 60 seconds
     });
     
     if (!response.ok) {
+      console.error(`Error response from API: ${response.status} ${response.statusText}`);
       throw new Error(`Error fetching product: ${response.status}`);
     }
     
-    return await response.json();
+    const data = await response.json();
+    console.log('Product data received:', JSON.stringify(data, null, 2));
+    return data;
   } catch (error) {
     console.error('Error fetching product data:', error);
     return null;
@@ -79,7 +89,13 @@ export default async function ProductDetailPage({
     );
   }
   
-  const { product, variant } = data;
+  // Extract product and variant from the response
+  const product = data.product;
+  const variant = product.variant; // The variant is nested inside the product object
+  
+  // Debug logs to help diagnose the issue
+  console.log('Product data in page component:', product);
+  console.log('Variant data in page component:', variant);
   
   return (
     <div className="container mx-auto px-4 py-8">
@@ -99,7 +115,7 @@ export default async function ProductDetailPage({
         <div>
           <h1 className="text-3xl font-bold mb-4">{product.name}</h1>
           
-          {variant ? (
+          {variant && variant.available !== false ? (
             <>
               <div className="text-2xl font-bold text-blue-600 mb-4">
                 €{variant.price.toFixed(2)}
@@ -114,6 +130,13 @@ export default async function ProductDetailPage({
                     : t('outOfStock') || 'Niet op voorraad'
                   }
                 </div>
+                
+                {/* Show note if using variant from another domain */}
+                {variant.domain_id !== await getDomainId() && (
+                  <div className="mt-2 text-sm text-gray-500">
+                    {t('usingFallbackVariant') || 'Prijzen worden getoond van een andere regio.'}
+                  </div>
+                )}
               </div>
               
               <div className="prose dark:prose-invert mb-8">
