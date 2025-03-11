@@ -47,103 +47,157 @@
 
 :root {
   /* Dutch Seed Supply Brand Colors - Light Mode */
-  --dss-green-50: #f0fdf4;
-  --dss-green-100: #dcfce7;
-  --dss-green-200: #bbf7d0;
-  --dss-green-300: #86efac;
-  --dss-green-400: #4ade80;
-  --dss-green-500: #22c55e;
-  --dss-green-600: #16a34a;
-  --dss-green-700: #15803d;
-  --dss-green-800: #166534;
-  --dss-green-900: #14532d;
-  --dss-green-950: #052e16;
+  /* Original Logo Colors:
+     - Blue: #2075BF
+     - Green: #4E8B01
+     - Orange: #C47303
+     - Light Gray: #C6C0BE
+     - Terracotta: #B65013
+  */
   
-  --dss-emerald-400: #34d399;
-  --dss-emerald-500: #10b981;
-  --dss-emerald-600: #059669;
-  --dss-emerald-700: #047857;
-  --dss-emerald-800: #065f46;
+  /* Pastel versions of logo colors */
+  --dss-blue-50: #eef5fc;
+  --dss-blue-100: #d4e5f7;
+  --dss-blue-200: #a9cbef;
+  --dss-blue-300: #7AAED8;
+  --dss-blue-400: #5096cf;
+  --dss-blue-500: #2075BF;
+  --dss-blue-600: #1a5e99;
+  --dss-blue-700: #154873;
+  --dss-blue-800: #10324d;
+  --dss-blue-900: #081c2a;
+  
+  --dss-green-50: #f3f8e9;
+  --dss-green-100: #e3efd0;
+  --dss-green-200: #c7dfa1;
+  --dss-green-300: #8CB85C;
+  --dss-green-400: #6a9e2d;
+  --dss-green-500: #4E8B01;
+  --dss-green-600: #3f6f01;
+  --dss-green-700: #2f5301;
+  --dss-green-800: #203700;
+  --dss-green-900: #101c00;
+  
+  --dss-orange-50: #fdf6ea;
+  --dss-orange-100: #faebd0;
+  --dss-orange-200: #f4d7a1;
+  --dss-orange-300: #E0A85C;
+  --dss-orange-400: #d48b2d;
+  --dss-orange-500: #C47303;
+  --dss-orange-600: #9d5c02;
+  --dss-orange-700: #764502;
+  --dss-orange-800: #4e2e01;
+  --dss-orange-900: #271701;
+  
+  --dss-gray-50: #f9f8f8;
+  --dss-gray-100: #f2f1f0;
+  --dss-gray-200: #e5e3e2;
+  --dss-gray-300: #D8D4D2;
+  --dss-gray-400: #C6C0BE;
+  --dss-gray-500: #b0a9a6;
+  --dss-gray-600: #8c8582;
+  --dss-gray-700: #6a6461;
+  --dss-gray-800: #474341;
+  --dss-gray-900: #232120;
+  
+  --dss-terra-50: #fbf2ec;
+  --dss-terra-100: #f6e2d6;
+  --dss-terra-200: #ecc5ad;
+  --dss-terra-300: #D88A60;
+  --dss-terra-400: #ce6d39;
+  --dss-terra-500: #B65013;
+  --dss-terra-600: #92400f;
+  --dss-terra-700: #6e300b;
+  --dss-terra-800: #492008;
+  --dss-terra-900: #251004;
+  
+  /* Category Colors - Pastel */
+  --dss-indica: #B39CD8;    /* Pastel Purple */
+  --dss-sativa: #8CB85C;    /* Pastel Green (from logo) */
+  --dss-hybrid: #7AAED8;    /* Pastel Blue (from logo) */
+  --dss-autoflower: #E0A85C; /* Pastel Orange (from logo) */
+  --dss-feminized: #E8A5C0; /* Pastel Pink */
+  --dss-cbd: #88C9C2;       /* Pastel Teal */
   
   /* Main Theme Colors */
-  --background: var(--dss-green-50);
-  --foreground: var(--dss-green-950);
+  --background: var(--dss-gray-50);
+  --foreground: var(--dss-terra-900);
   --card: white;
-  --card-foreground: var(--dss-green-950);
+  --card-foreground: var(--dss-terra-900);
   --popover: white;
-  --popover-foreground: var(--dss-green-950);
-  --primary: var(--dss-green-600);
+  --popover-foreground: var(--dss-terra-900);
+  --primary: var(--dss-green-500);
   --primary-foreground: white;
   --secondary: var(--dss-green-100);
-  --secondary-foreground: var(--dss-green-800);
-  --muted: var(--dss-green-100);
-  --muted-foreground: var(--dss-green-700);
-  --accent: var(--dss-green-200);
-  --accent-foreground: var(--dss-green-800);
+  --secondary-foreground: var(--dss-green-700);
+  --muted: var(--dss-gray-100);
+  --muted-foreground: var(--dss-terra-600);
+  --accent: var(--dss-blue-100);
+  --accent-foreground: var(--dss-blue-700);
   --destructive: #ef4444;
   --destructive-foreground: white;
-  --border: var(--dss-green-200);
-  --input: var(--dss-green-200);
-  --ring: var(--dss-green-500);
+  --border: var(--dss-gray-200);
+  --input: var(--dss-gray-200);
+  --ring: var(--dss-blue-400);
   
   /* Chart Colors */
-  --chart-1: var(--dss-green-600);
-  --chart-2: var(--dss-emerald-500);
-  --chart-3: var(--dss-green-400);
-  --chart-4: var(--dss-emerald-600);
-  --chart-5: var(--dss-green-800);
+  --chart-1: var(--dss-green-300);
+  --chart-2: var(--dss-blue-300);
+  --chart-3: var(--dss-orange-300);
+  --chart-4: var(--dss-terra-300);
+  --chart-5: var(--dss-indica);
   
   --radius: 0.625rem;
   
   /* Sidebar Colors */
   --sidebar: white;
-  --sidebar-foreground: var(--dss-green-950);
-  --sidebar-primary: var(--dss-green-600);
+  --sidebar-foreground: var(--dss-terra-900);
+  --sidebar-primary: var(--dss-blue-400);
   --sidebar-primary-foreground: white;
-  --sidebar-accent: var(--dss-green-100);
-  --sidebar-accent-foreground: var(--dss-green-800);
-  --sidebar-border: var(--dss-green-200);
-  --sidebar-ring: var(--dss-green-500);
+  --sidebar-accent: var(--dss-blue-100);
+  --sidebar-accent-foreground: var(--dss-blue-700);
+  --sidebar-border: var(--dss-gray-200);
+  --sidebar-ring: var(--dss-blue-400);
 }
 
 .dark {
   /* Dutch Seed Supply Brand Colors - Dark Mode */
-  --background: var(--dss-green-950);
-  --foreground: var(--dss-green-50);
-  --card: var(--dss-green-900);
-  --card-foreground: var(--dss-green-50);
-  --popover: var(--dss-green-900);
-  --popover-foreground: var(--dss-green-50);
-  --primary: var(--dss-green-400);
-  --primary-foreground: var(--dss-green-950);
-  --secondary: var(--dss-green-800);
+  --background: var(--dss-terra-900);
+  --foreground: var(--dss-gray-100);
+  --card: var(--dss-terra-800);
+  --card-foreground: var(--dss-gray-100);
+  --popover: var(--dss-terra-800);
+  --popover-foreground: var(--dss-gray-100);
+  --primary: var(--dss-green-300);
+  --primary-foreground: var(--dss-terra-900);
+  --secondary: var(--dss-terra-700);
   --secondary-foreground: var(--dss-green-100);
-  --muted: var(--dss-green-800);
-  --muted-foreground: var(--dss-green-300);
-  --accent: var(--dss-green-800);
-  --accent-foreground: var(--dss-green-100);
+  --muted: var(--dss-terra-700);
+  --muted-foreground: var(--dss-gray-300);
+  --accent: var(--dss-blue-700);
+  --accent-foreground: var(--dss-blue-100);
   --destructive: #f87171;
   --destructive-foreground: #fef2f2;
-  --border: var(--dss-green-800);
-  --input: var(--dss-green-800);
-  --ring: var(--dss-green-600);
+  --border: var(--dss-terra-700);
+  --input: var(--dss-terra-700);
+  --ring: var(--dss-blue-500);
   
   /* Chart Colors */
-  --chart-1: var(--dss-green-400);
-  --chart-2: var(--dss-emerald-400);
-  --chart-3: var(--dss-green-500);
-  --chart-4: var(--dss-emerald-500);
-  --chart-5: var(--dss-green-300);
+  --chart-1: var(--dss-green-300);
+  --chart-2: var(--dss-blue-300);
+  --chart-3: var(--dss-orange-300);
+  --chart-4: var(--dss-terra-300);
+  --chart-5: var(--dss-indica);
   
   /* Sidebar Colors */
-  --sidebar: var(--dss-green-900);
-  --sidebar-foreground: var(--dss-green-50);
-  --sidebar-primary: var(--dss-green-400);
-  --sidebar-primary-foreground: var(--dss-green-950);
-  --sidebar-accent: var(--dss-green-800);
-  --sidebar-accent-foreground: var(--dss-green-100);
-  --sidebar-border: var(--dss-green-800);
-  --sidebar-ring: var(--dss-green-600);
+  --sidebar: var(--dss-terra-800);
+  --sidebar-foreground: var(--dss-gray-100);
+  --sidebar-primary: var(--dss-blue-300);
+  --sidebar-primary-foreground: var(--dss-terra-900);
+  --sidebar-accent: var(--dss-terra-700);
+  --sidebar-accent-foreground: var(--dss-blue-100);
+  --sidebar-border: var(--dss-terra-700);
+  --sidebar-ring: var(--dss-blue-500);
 }
 
 @layer base {

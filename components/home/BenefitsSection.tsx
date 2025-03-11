@@ -146,11 +146,7 @@ function BenefitCard({ benefit, index }: { benefit: typeof benefits[0], index: n
 
 export default function BenefitsSection() {
   return (
-    <div className="py-24 relative overflow-hidden">
-      {/* Background with subtle pattern */}
-      <div className="absolute inset-0 bg-gray-50 dark:bg-gray-900">
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:20px_20px] opacity-50"></div>
-      </div>
+    <div className="py-24 relative overflow-hidden bg-[#f9f9f7] dark:bg-gray-950 rounded-xl">
       
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent"></div>
@@ -170,10 +166,10 @@ export default function BenefitsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block">
+          <h2 className="text-4xl font-bold mb-4 text-[#4E8B01] inline-block">
             Why Choose Our Seeds
           </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-6"></div>
+          <div className="h-1 w-20 bg-[#8CB85C] mx-auto rounded-full mb-6"></div>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             We&apos;re committed to providing the highest quality cannabis seeds with exceptional service and support.
           </p>

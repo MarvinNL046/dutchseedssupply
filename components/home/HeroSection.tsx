@@ -76,8 +76,8 @@ export default function HeroSection() {
             transition: "transform 0.1s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
           }}
         >
-          {/* Primary gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-green-900 via-emerald-800 to-green-950"></div>
+          {/* Solid background */}
+          <div className="absolute inset-0 bg-[#4E8B01]"></div>
           
           {/* Secondary animated gradient for depth */}
           <div className="absolute inset-0 bg-gradient-to-tr from-black/80 via-black/60 to-black/40 opacity-80"></div>
@@ -102,7 +102,7 @@ export default function HeroSection() {
               variants={itemVariants}
             >
               <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">{t('premiumCannabisSeeds')}</span>
-              <span className="block mt-2 bg-gradient-to-r from-green-400 to-emerald-600 bg-clip-text text-transparent">{t('forEveryGrower')}</span>
+              <span className="block mt-2 text-[#8CB85C]">{t('forEveryGrower')}</span>
             </motion.h1>
             
             <motion.p 
@@ -119,12 +119,12 @@ export default function HeroSection() {
               <Button 
                 asChild 
                 size="lg" 
-                className="bg-green-600 hover:bg-green-700 relative overflow-hidden group"
+                className="bg-[#4E8B01] hover:bg-[#3f6f01] relative overflow-hidden group"
               >
                 <Link href="/products">
                   <span className="relative z-10">{t('shopNow')}</span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                  <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500"></span>
+                  <span className="absolute inset-0 bg-[#3f6f01] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-[#8CB85C]"></span>
                 </Link>
               </Button>
               
@@ -170,7 +170,7 @@ export default function HeroSection() {
         </motion.div>
         
         {/* Animated gradient accent */}
-        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-green-500 via-emerald-400 to-green-500 opacity-70"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8CB85C] opacity-70"></div>
       </div>
     );
   }

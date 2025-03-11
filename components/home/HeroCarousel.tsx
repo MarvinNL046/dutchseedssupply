@@ -18,39 +18,39 @@ interface Slide {
   accentClass: string;
 }
 
-// Define the slides with translation keys
+// Define the slides with translation keys and pastel colors
 const slideData: Slide[] = [
   {
     id: 1,
     titleKey: 'premiumCannabisSeeds',
     subtitleKey: 'forEveryGrower',
     descriptionKey: 'discoverCollection',
-    bgClass: 'bg-gradient-to-br from-green-900 via-emerald-800 to-green-950',
-    accentClass: 'from-green-400 to-emerald-600',
+    bgClass: 'bg-[#4E8B01]',
+    accentClass: 'text-[#8CB85C]',
   },
   {
     id: 2,
     titleKey: 'autofloweringVarieties',
     subtitleKey: 'easyToGrow',
     descriptionKey: 'autofloweringDescription',
-    bgClass: 'bg-gradient-to-br from-amber-900 via-yellow-800 to-amber-950',
-    accentClass: 'from-amber-400 to-yellow-600',
+    bgClass: 'bg-[#B65013]',
+    accentClass: 'text-[#E0A85C]',
   },
   {
     id: 3,
     titleKey: 'feminizedSeeds',
     subtitleKey: 'maximumYield',
     descriptionKey: 'feminizedDescription',
-    bgClass: 'bg-gradient-to-br from-purple-900 via-fuchsia-800 to-purple-950',
-    accentClass: 'from-fuchsia-400 to-purple-600',
+    bgClass: 'bg-[#B39CD8]',
+    accentClass: 'text-[#E8A5C0]',
   },
   {
     id: 4,
     titleKey: 'cbdStrains',
     subtitleKey: 'therapeuticBenefits',
     descriptionKey: 'cbdDescription',
-    bgClass: 'bg-gradient-to-br from-blue-900 via-cyan-800 to-blue-950',
-    accentClass: 'from-cyan-400 to-blue-600',
+    bgClass: 'bg-[#2075BF]',
+    accentClass: 'text-[#88C9C2]',
   }
 ];
 
@@ -152,7 +152,7 @@ export default function HeroCarousel() {
     >
       {/* Carousel slides */}
       {/* Fixed background to prevent white flash */}
-      <div className="absolute inset-0 bg-green-950"></div>
+      <div className="absolute inset-0 bg-[#4E8B01]"></div>
       
       <AnimatePresence initial={false} custom={direction} mode="sync">
         <motion.div
@@ -237,7 +237,7 @@ export default function HeroCarousel() {
                 <span className="inline-block transform hover:translate-x-1 transition-transform duration-300">
                   {t(slideData[currentSlide].titleKey)}
                 </span>
-                <span className={`block mt-2 bg-gradient-to-r ${slideData[currentSlide].accentClass} bg-clip-text text-transparent`}>
+                <span className={`block mt-2 ${slideData[currentSlide].accentClass}`}>
                   {t(slideData[currentSlide].subtitleKey)}
                 </span>
               </motion.h1>
@@ -256,12 +256,12 @@ export default function HeroCarousel() {
                 <Button 
                   asChild 
                   size="lg" 
-                  className="bg-green-600 hover:bg-green-700 relative overflow-hidden group"
+                  className="bg-[#4E8B01] hover:bg-[#3f6f01] relative overflow-hidden group"
                 >
                   <Link href="/products">
                     <span className="relative z-10">{t('shopNow')}</span>
-                    <span className="absolute inset-0 bg-gradient-to-r from-green-500 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-gradient-to-r from-green-400 to-emerald-500"></span>
+                    <span className="absolute inset-0 bg-[#3f6f01] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <span className="absolute -inset-x-1 bottom-0 h-[2px] bg-[#8CB85C]"></span>
                   </Link>
                 </Button>
                 
@@ -377,7 +377,7 @@ export default function HeroCarousel() {
       </div>
 
       {/* Animated gradient accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-green-500 via-emerald-400 to-green-500 opacity-70"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#8CB85C] opacity-70"></div>
     </div>
   );
 }

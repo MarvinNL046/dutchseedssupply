@@ -43,14 +43,14 @@ export default function GlassyProductCard({ variant, index }: GlassyProductCardP
     >
       <Card className="overflow-hidden h-full border-0 backdrop-blur-[2px] bg-white/80 dark:bg-gray-900/80 shadow-lg hover:shadow-xl transition-all duration-300 relative">
         {/* Gradient border effect */}
-        <div className="absolute inset-0 rounded-xl p-[1px] bg-gradient-to-br from-green-400/20 via-emerald-300/20 to-green-500/20 -z-10"></div>
+        <div className="absolute inset-0 rounded-xl p-[1px] bg-[#8CB85C]/20 -z-10"></div>
         
         {/* Glass shine effect */}
         <div className="absolute -inset-x-full -top-[150%] bottom-0 h-[500%] w-[300%] opacity-20 bg-gradient-to-r from-transparent via-white to-transparent transform rotate-45 transition-all duration-1000 pointer-events-none"></div>
         
         <div className="h-48 bg-gray-200 dark:bg-gray-700 relative overflow-hidden group">
           {/* Placeholder for product image */}
-          <div className="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400 bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900 dark:to-emerald-800">
+          <div className="absolute inset-0 flex items-center justify-center text-gray-500 dark:text-gray-400 bg-[#f3f8e9] dark:bg-[#203700]">
             Seed Image
           </div>
           
@@ -63,13 +63,13 @@ export default function GlassyProductCard({ variant, index }: GlassyProductCardP
         </div>
         
         <CardContent className="p-4 relative z-10">
-          <h3 className="text-lg font-semibold mb-2 bg-gradient-to-r from-green-800 to-emerald-700 dark:from-green-400 dark:to-emerald-300 bg-clip-text text-transparent">{variant.products.name}</h3>
-          <p className="text-sm text-green-700 dark:text-green-300 line-clamp-2 mb-2 opacity-80">
+          <h3 className="text-lg font-semibold mb-2 text-[#4E8B01] dark:text-[#8CB85C]">{variant.products.name}</h3>
+          <p className="text-sm text-[#3f6f01] dark:text-[#8CB85C] line-clamp-2 mb-2 opacity-80">
             {variant.products.description}
           </p>
           <div className="flex justify-between items-center mt-3">
-            <span className="text-lg font-bold bg-gradient-to-r from-green-700 to-emerald-600 dark:from-green-500 dark:to-emerald-400 bg-clip-text text-transparent">€{variant.price.toFixed(2)}</span>
-            <span className={`text-sm px-2 py-1 rounded-full ${variant.stock > 0 ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}>
+            <span className="text-lg font-bold text-[#4E8B01] dark:text-[#8CB85C]">€{variant.price.toFixed(2)}</span>
+            <span className={`text-sm px-2 py-1 rounded-full ${variant.stock > 0 ? 'bg-[#e3efd0] text-[#3f6f01] dark:bg-[#2f5301] dark:text-[#c7dfa1]' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}>
               {variant.stock > 0 ? `${variant.stock} in stock` : 'Out of stock'}
             </span>
           </div>

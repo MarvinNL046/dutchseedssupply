@@ -100,17 +100,17 @@ export default function FeaturedProducts() {
 
   if (isLoading) {
     return (
-      <div className="py-16 bg-gradient-to-b from-green-50 to-white dark:from-green-950 dark:to-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-16">
+        <div className="w-full">
           <motion.h2 
-            className="text-4xl font-bold text-center mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block"
+            className="text-4xl font-bold text-center mb-4 text-[#4E8B01] inline-block"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             {t('featuredSeeds')}
           </motion.h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-12"></div>
+          <div className="h-1 w-20 bg-[#8CB85C] mx-auto rounded-full mb-12"></div>
           <div className="flex justify-center">
             <div className="w-full h-64 bg-gray-200 dark:bg-gray-800 animate-pulse rounded-lg"></div>
           </div>
@@ -120,11 +120,11 @@ export default function FeaturedProducts() {
   }
 
   return (
-    <div className="py-16 bg-gradient-to-b from-green-50 to-white dark:from-green-950 dark:to-gray-900 relative overflow-hidden">
+    <div className="py-16 relative overflow-hidden bg-[#f9f9f7] dark:bg-gray-950 rounded-xl">
       {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-24 -left-24 w-48 h-48 rounded-full bg-green-500/5 blur-3xl"></div>
-        <div className="absolute top-1/3 -right-24 w-64 h-64 rounded-full bg-emerald-500/5 blur-3xl"></div>
+        <div className="absolute -top-24 -left-24 w-48 h-48 rounded-full bg-[#8CB85C]/5 blur-3xl"></div>
+        <div className="absolute top-1/3 -right-24 w-64 h-64 rounded-full bg-[#7AAED8]/5 blur-3xl"></div>
       </div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -134,10 +134,10 @@ export default function FeaturedProducts() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block">
+          <h2 className="text-4xl font-bold mb-4 text-[#4E8B01] inline-block">
             {t('featuredSeeds')}
           </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-6"></div>
+          <div className="h-1 w-20 bg-[#8CB85C] mx-auto rounded-full mb-6"></div>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             {t('exploreSelection')}
           </p>

@@ -45,7 +45,7 @@ const faqItems = [
 
 export default function FaqSection() {
   return (
-    <div className="py-16 bg-gray-50 dark:bg-gray-900">
+    <div className="py-16 bg-[#f9f9f7] dark:bg-gray-950 rounded-xl">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-4">Frequently Asked Questions</h2>
         <p className="text-lg text-center text-gray-600 dark:text-gray-400 mb-12 max-w-3xl mx-auto">

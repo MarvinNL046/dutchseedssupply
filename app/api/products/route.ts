@@ -53,7 +53,19 @@ export async function GET(request: Request) {
     
     // Apply filters
     if (category) {
-      query = query.eq('product_categories.categories.slug', category);
+      // First get the category ID for the given slug
+      const { data: categoryData, error: categoryError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('slug', category)
+        .single();
+      
+      if (categoryError) {
+        console.error('Error fetching category:', categoryError);
+      } else if (categoryData) {
+        // Then filter products by that category ID
+        query = query.eq('product_categories.category_id', categoryData.id);
+      }
     }
     
     if (featured) {

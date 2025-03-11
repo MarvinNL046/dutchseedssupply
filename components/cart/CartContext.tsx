@@ -10,6 +10,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   domainId: string;
+  packageSize?: number; // Added package size field
 };
 
 // Define the context type

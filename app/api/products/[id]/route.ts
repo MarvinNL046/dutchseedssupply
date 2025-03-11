@@ -214,9 +214,39 @@ export async function GET(
             relatedProducts = related as RelatedProduct[];
           }
         }
+        
+        // If no related products found by category, get random products
+        if (!relatedProducts || relatedProducts.length === 0) {
+          console.log('No related products found by category, fetching random products');
+          const { data: randomProducts, error: randomError } = await supabase
+            .from('products')
+            .select('id, name, slug, price, sale_price, images, stock_status')
+            .neq('id', productId)
+            .limit(4);
+          
+          if (!randomError && randomProducts && randomProducts.length > 0) {
+            relatedProducts = randomProducts as RelatedProduct[];
+          }
+        }
       } catch (error) {
         console.error('Error fetching related products:', error);
         // Continue anyway, related products are not critical
+      }
+    } else {
+      // If product has no categories, get random products
+      console.log('Product has no categories, fetching random products');
+      try {
+        const { data: randomProducts, error: randomError } = await supabase
+          .from('products')
+          .select('id, name, slug, price, sale_price, images, stock_status')
+          .neq('id', productId)
+          .limit(4);
+        
+        if (!randomError && randomProducts && randomProducts.length > 0) {
+          relatedProducts = randomProducts as RelatedProduct[];
+        }
+      } catch (error) {
+        console.error('Error fetching random products:', error);
       }
     }
     

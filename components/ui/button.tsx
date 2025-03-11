@@ -12,15 +12,15 @@ const buttonVariants = cva(
         default:
           "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
         gradient:
-          "bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-sm hover:from-green-700 hover:to-emerald-600 transition-all duration-300",
+          "bg-[#4E8B01] text-white shadow-sm hover:bg-[#3f6f01] transition-all duration-300",
         destructive:
           "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline:
-          "border border-green-200 dark:border-green-800 bg-background shadow-xs hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-300",
+          "border border-[#c7dfa1] dark:border-[#2f5301] bg-background shadow-xs hover:bg-[#f3f8e9] dark:hover:bg-[#203700] hover:text-[#3f6f01] dark:hover:text-[#8CB85C] transition-colors duration-300",
         secondary:
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        ghost: "hover:bg-green-50 dark:hover:bg-green-900 hover:text-green-700 dark:hover:text-green-300 transition-colors duration-300",
-        link: "text-green-600 dark:text-green-400 underline-offset-4 hover:underline",
+        ghost: "hover:bg-[#f3f8e9] dark:hover:bg-[#203700] hover:text-[#3f6f01] dark:hover:text-[#8CB85C] transition-colors duration-300",
+        link: "text-[#4E8B01] dark:text-[#8CB85C] underline-offset-4 hover:underline",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

@@ -18,6 +18,7 @@ type ProductVariant = {
   stock_quantity: number;
   stock_status: string;
   available: boolean;
+  package_size?: number; // Added package_size field
 };
 
 type AddToCartButtonProps = {
@@ -42,8 +43,9 @@ export default function AddToCartButton({
       productId: product.id,
       variantId: variant.id, // Using variant ID
       name: product.name,
-      price: variant.price,
+      price: variant.sale_price || variant.price, // Use sale price if available
       domainId: variant.domain_id,
+      packageSize: variant.package_size, // Add package size to cart item
     });
     
     // Show feedback
@@ -57,7 +59,7 @@ export default function AddToCartButton({
       onClick={handleAddToCart}
       disabled={isAdding || variant.stock_quantity <= 0}
       className={`
-        px-6 py-3 rounded-md font-medium text-white transition-colors
+        w-full px-6 py-3 rounded-md font-medium text-white transition-colors
         ${isAdding 
           ? 'bg-green-500' 
           : variant.stock_quantity > 0 

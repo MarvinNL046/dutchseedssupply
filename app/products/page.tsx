@@ -27,9 +27,17 @@ type Product = {
   }>;
 };
 
-async function getProducts() {
+async function getProducts(params: Record<string, string> = {}) {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/products/`, {
+    // Build URL with query parameters
+    const url = new URL(`${process.env.NEXT_PUBLIC_SITE_URL || ''}/api/products/`);
+    
+    // Add all params to the URL
+    Object.entries(params).forEach(([key, value]) => {
+      if (value) url.searchParams.append(key, value);
+    });
+    
+    const response = await fetch(url.toString(), {
       cache: 'no-store'
     });
     
@@ -45,12 +53,25 @@ async function getProducts() {
   }
 }
 
-export default async function ProductsPage() {
+export default async function ProductsPage({ 
+  searchParams 
+}: { 
+  searchParams: { [key: string]: string | string[] | undefined } 
+}) {
   // Get translations
   const { t } = await getTranslations(translations);
   
-  // Fetch products using the API route
-  const products = await getProducts();
+  // Extract search parameters
+  const category = searchParams.category as string;
+  const search = searchParams.search as string;
+  const featured = searchParams.featured as string;
+  
+  // Fetch products using the API route with filters
+  const products = await getProducts({
+    category,
+    search,
+    featured
+  });
   
   if (!products || products.length === 0) {
     console.error('No products found or error fetching products');
