@@ -6,55 +6,71 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 import React from "react";
 
-// Define the categories we want to display
+// Define the categories we want to display with pastel colors
 const categories = [
   {
     id: "indica",
     name: "Indica",
     description: "Relaxing & calming strains",
-    color: "from-purple-500 to-purple-700",
-    hoverColor: "from-purple-400 to-purple-600",
-    shadowColor: "shadow-purple-500/20",
+    color: "bg-[#B39CD8]",
+    hoverColor: "bg-[#C1AFDF]",
+    shadowColor: "shadow-[#B39CD8]/30",
   },
   {
     id: "sativa",
     name: "Sativa",
     description: "Energizing & uplifting varieties",
-    color: "from-green-500 to-green-700",
-    hoverColor: "from-green-400 to-green-600",
-    shadowColor: "shadow-green-500/20",
+    color: "bg-[#8CB85C]",
+    hoverColor: "bg-[#A6C87C]",
+    shadowColor: "shadow-[#8CB85C]/30",
   },
   {
     id: "hybrid",
     name: "Hybrid",
     description: "Balanced effects & characteristics",
-    color: "from-blue-500 to-blue-700",
-    hoverColor: "from-blue-400 to-blue-600",
-    shadowColor: "shadow-blue-500/20",
+    color: "bg-[#7AAED8]",
+    hoverColor: "bg-[#A9CBEF]",
+    shadowColor: "shadow-[#7AAED8]/30",
   },
   {
-    id: "autoflower",
+    id: "autoflowering",
     name: "Autoflowering",
     description: "Quick & easy to grow",
-    color: "from-yellow-500 to-yellow-700",
-    hoverColor: "from-yellow-400 to-yellow-600",
-    shadowColor: "shadow-yellow-500/20",
+    color: "bg-[#E0A85C]",
+    hoverColor: "bg-[#F4D7A1]",
+    shadowColor: "shadow-[#E0A85C]/30",
   },
   {
     id: "feminized",
     name: "Feminized",
     description: "Guaranteed female plants",
-    color: "from-pink-500 to-pink-700",
-    hoverColor: "from-pink-400 to-pink-600",
-    shadowColor: "shadow-pink-500/20",
+    color: "bg-[#E8A5C0]",
+    hoverColor: "bg-[#F2C7D8]",
+    shadowColor: "shadow-[#E8A5C0]/30",
   },
   {
     id: "cbd",
     name: "CBD",
     description: "High CBD, low THC options",
-    color: "from-teal-500 to-teal-700",
-    hoverColor: "from-teal-400 to-teal-600",
-    shadowColor: "shadow-teal-500/20",
+    color: "bg-[#88C9C2]",
+    hoverColor: "bg-[#A8D7D2]",
+    shadowColor: "shadow-[#88C9C2]/30",
+  },
+  {
+    id: "usa",
+    name: "USA",
+    description: "Premium American genetics",
+    color: "bg-[#E05C5C]",
+    hoverColor: "bg-[#F47C7C]",
+    shadowColor: "shadow-[#E05C5C]/30",
+  },
+  {
+    id: "f1-hybrids",
+    name: "F1-Hybrids",
+    description: "Superior growth & uniformity",
+    color: "bg-[#9C6AD8]",
+    hoverColor: "bg-[#B68AE5]",
+    shadowColor: "shadow-[#9C6AD8]/30",
   },
 ];
 
@@ -128,7 +144,7 @@ function TiltCard({ category, index }: { category: typeof categories[0], index: 
         ease: [0.22, 1, 0.36, 1]
       }}
     >
-      <Link href={`/products?category=${category.id}`}>
+      <Link href={`/category/${category.id}`}>
         <TiltableCard 
           ref={cardRef}
           className={`overflow-hidden h-full border-0 ${category.shadowColor} shadow-xl transition-all duration-300 ease-out will-change-transform`}
@@ -136,9 +152,9 @@ function TiltCard({ category, index }: { category: typeof categories[0], index: 
           onMouseLeave={handleMouseLeave}
         >
           <div className="relative h-48 overflow-hidden group">
-            {/* Gradient background with animation */}
+            {/* Solid background with animation */}
             <div 
-              className={`absolute inset-0 bg-gradient-to-tr ${category.color} group-hover:${category.hoverColor} transform group-hover:scale-110 transition-all duration-700 ease-out`}
+              className={`absolute inset-0 ${category.color} group-hover:${category.hoverColor} transform group-hover:scale-110 transition-all duration-700 ease-out`}
             />
             
             {/* Pattern overlay for texture */}
@@ -156,7 +172,7 @@ function TiltCard({ category, index }: { category: typeof categories[0], index: 
           <CardContent className="p-4 bg-white dark:bg-gray-800 transition-colors duration-300">
             <div className="flex justify-between items-center">
               <span className="text-sm text-gray-600 dark:text-gray-400">View Collection</span>
-              <span className="text-green-600 group-hover:translate-x-1 transition-transform duration-300">→</span>
+              <span className="text-[#4E8B01] dark:text-[#8CB85C] group-hover:translate-x-1 transition-transform duration-300">→</span>
             </div>
           </CardContent>
         </TiltableCard>
@@ -167,7 +183,7 @@ function TiltCard({ category, index }: { category: typeof categories[0], index: 
 
 export default function CategoriesGrid() {
   return (
-    <div id="categories" className="py-24 bg-gradient-to-b from-white to-gray-50 dark:from-gray-950 dark:to-gray-900">
+    <div id="categories" className="py-24 bg-[#f9f9f7] dark:bg-gray-950 rounded-xl">
       <motion.div 
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
         variants={containerVariants}
@@ -182,10 +198,10 @@ export default function CategoriesGrid() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent inline-block">
+          <h2 className="text-4xl font-bold mb-4 text-[#4E8B01] inline-block">
             Seed Categories
           </h2>
-          <div className="h-1 w-20 bg-gradient-to-r from-green-500 to-emerald-400 mx-auto rounded-full mb-6"></div>
+          <div className="h-1 w-20 bg-[#8CB85C] mx-auto rounded-full mb-6"></div>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             Explore our diverse range of cannabis seeds, each carefully selected for specific growing conditions and desired effects.
           </p>
