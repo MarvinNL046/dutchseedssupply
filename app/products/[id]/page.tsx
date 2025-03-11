@@ -1,7 +1,7 @@
 import { getTranslations } from '@/lib/i18n';
 import translations from '@/locale/translations';
 import Link from 'next/link';
-import ProductActions from '@/app/products/[id]/ProductActions';
+import ProductActions from './ProductActions';
 
 // Define types for our data
 type ProductVariant = {
